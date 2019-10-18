@@ -1,0 +1,16 @@
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\bin\Debug\netcoreapp2.1\GrainInterfaces.dll
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\bin\Debug\netcoreapp2.1\Grains.dll
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\obj\Debug\netcoreapp2.1\Silo.csprojAssemblyReference.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\obj\Debug\netcoreapp2.1\Silo.csproj.CoreCompileInputs.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\obj\Debug\netcoreapp2.1\Silo.AssemblyInfoInputs.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\obj\Debug\netcoreapp2.1\Silo.AssemblyInfo.cs
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\bin\Debug\netcoreapp2.1\Silo.deps.json
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\bin\Debug\netcoreapp2.1\Silo.runtimeconfig.json
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\bin\Debug\netcoreapp2.1\Silo.runtimeconfig.dev.json
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\bin\Debug\netcoreapp2.1\Silo.dll
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\bin\Debug\netcoreapp2.1\Silo.pdb
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\bin\Debug\netcoreapp2.1\GrainInterfaces.pdb
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\bin\Debug\netcoreapp2.1\Grains.pdb
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\obj\Debug\netcoreapp2.1\Silo.csproj.CopyComplete
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\obj\Debug\netcoreapp2.1\Silo.dll
+D:\ProgrameDemo\NET\OrleansHelloWorld\Silo\obj\Debug\netcoreapp2.1\Silo.pdb

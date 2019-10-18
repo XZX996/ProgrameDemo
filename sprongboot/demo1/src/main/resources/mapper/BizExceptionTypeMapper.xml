@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.BizExceptionTypeMapper" >
+<resultMap id="BaseResultMap" type="com.example.demo.pojo.BizExceptionType" >
+   <id column="ETYPE" property="etype" jdbcType="VARCHAR" />
+   <result column="IS_ASSESSMENT" property="isAssessment" jdbcType="CHAR" />
+   <result column="DES" property="des" jdbcType="VARCHAR" />
+   <result column="NAME" property="name" jdbcType="VARCHAR" />
+   <result column="STATE" property="state" jdbcType="CHAR" />
+   <result column="BELONG_SYSTEM" property="belongSystem" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+    ETYPE,IS_ASSESSMENT,DES,NAME,STATE,BELONG_SYSTEM
+</sql>
+<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" > 
+    select  
+    <include refid="Base_Column_List" /> 
+    from  BIZ_EXCEPTION_TYPE
+    where ETYPE = #{etype,jdbcType=VARCHAR} 
+</select> 
+<select id="selectAllByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from BIZ_EXCEPTION_TYPE
+</select>
+<delete id="deleteByPrimaryKey"  parameterType="java.lang.String" > 
+    delete  
+    from  BIZ_EXCEPTION_TYPE
+    where ETYPE = #{etype,jdbcType=VARCHAR} 
+</delete> 
+<insert id="insert" parameterType="com.example.demo.pojo.BizExceptionType" >
+    insert into BIZ_EXCEPTION_TYPE ( ETYPE,IS_ASSESSMENT,DES,NAME,STATE,BELONG_SYSTEM ) 
+    values ( SEQ_BIZ_EXCEPTION_TYPE.NEXTVAL,#{isAssessment,jdbcType=CHAR},#{des,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{state,jdbcType=CHAR},#{belongSystem,jdbcType=VARCHAR} )
+</insert>
+<insert id="insertSelective" parameterType="com.example.demo.pojo.BizExceptionType" >
+    insert into BIZ_EXCEPTION_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ETYPE,
+      <if test="isAssessment != null" >IS_ASSESSMENT,</if>
+      <if test="des != null" >DES,</if>
+      <if test="name != null" >NAME,</if>
+      <if test="state != null" >STATE,</if>
+      <if test="belongSystem != null" >BELONG_SYSTEM,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      SEQ_BIZ_EXCEPTION_TYPE.NEXTVAL,
+      <if test="isAssessment != null" >#{isAssessment,jdbcType=CHAR},</if>
+      <if test="des != null" >#{des,jdbcType=VARCHAR},</if>
+      <if test="name != null" >#{name,jdbcType=VARCHAR},</if>
+      <if test="state != null" >#{state,jdbcType=CHAR},</if>
+      <if test="belongSystem != null" >#{belongSystem,jdbcType=VARCHAR},</if>
+    </trim>
+</insert>
+<update id="updateByPrimaryKey" parameterType="com.example.demo.pojo.BizExceptionType" >
+     update BIZ_EXCEPTION_TYPE set
+     IS_ASSESSMENT = #{isAssessment,jdbcType=CHAR}, 
+     DES = #{des,jdbcType=VARCHAR}, 
+     NAME = #{name,jdbcType=VARCHAR}, 
+     STATE = #{state,jdbcType=CHAR}, 
+     BELONG_SYSTEM = #{belongSystem,jdbcType=VARCHAR} 
+     where ETYPE = #{etype,jdbcType=VARCHAR}
+</update>
+<update id="updateByPrimaryKeySelective" parameterType="com.example.demo.pojo.BizExceptionType" >
+     update BIZ_EXCEPTION_TYPE
+     <set >
+       <if test="isAssessment != null" > IS_ASSESSMENT = #{isAssessment,jdbcType=CHAR},</if>
+       <if test="des != null" > DES = #{des,jdbcType=VARCHAR},</if>
+       <if test="name != null" > NAME = #{name,jdbcType=VARCHAR},</if>
+       <if test="state != null" > STATE = #{state,jdbcType=CHAR},</if>
+       <if test="belongSystem != null" > BELONG_SYSTEM = #{belongSystem,jdbcType=VARCHAR},</if>
+     </set>
+     where ETYPE = #{etype,jdbcType=VARCHAR}
+</update>
+</mapper>

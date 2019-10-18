@@ -1,0 +1,14 @@
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\bin\Debug\netstandard2.0\GrainInterfaces.dll
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\obj\Debug\netstandard2.0\Grains.csproj.CoreCompileInputs.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\obj\Debug\netstandard2.0\Grains.AssemblyInfoInputs.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\obj\Debug\netstandard2.0\Grains.AssemblyInfo.cs
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\obj\Debug\netstandard2.0\Grains.csprojAssemblyReference.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\obj\Debug\netstandard2.0\Grains.csproj.OrleansCodeGenInputs.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\bin\Debug\netstandard2.0\Grains.deps.json
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\bin\Debug\netstandard2.0\Grains.dll
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\bin\Debug\netstandard2.0\Grains.pdb
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\bin\Debug\netstandard2.0\GrainInterfaces.pdb
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\obj\Debug\netstandard2.0\Grains.orleans.g.cs
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\obj\Debug\netstandard2.0\Grains.csproj.CopyComplete
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\obj\Debug\netstandard2.0\Grains.dll
+D:\ProgrameDemo\NET\OrleansHelloWorld\Grains\obj\Debug\netstandard2.0\Grains.pdb

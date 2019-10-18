@@ -1,0 +1,11 @@
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\bin\Debug\netstandard2.0\GrainInterfaces.deps.json
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\bin\Debug\netstandard2.0\GrainInterfaces.dll
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\obj\Debug\netstandard2.0\GrainInterfaces.csproj.CoreCompileInputs.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\obj\Debug\netstandard2.0\GrainInterfaces.AssemblyInfoInputs.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\obj\Debug\netstandard2.0\GrainInterfaces.AssemblyInfo.cs
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\bin\Debug\netstandard2.0\GrainInterfaces.pdb
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\obj\Debug\netstandard2.0\GrainInterfaces.csproj.OrleansCodeGenInputs.cache
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\obj\Debug\netstandard2.0\GrainInterfaces.orleans.g.cs
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\obj\Debug\netstandard2.0\GrainInterfaces.dll
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\obj\Debug\netstandard2.0\GrainInterfaces.pdb
+D:\ProgrameDemo\NET\OrleansHelloWorld\GrainInterfaces\obj\Debug\netstandard2.0\GrainInterfaces.csprojAssemblyReference.cache

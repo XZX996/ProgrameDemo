@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <ul>
+        @for (int i = 1; i < ViewBag.Result.Count; i++)
+        {
+        <li>
+            ViewBag.Result[i].NAME
+        </li>
+        }
+    </ul>
+</div>

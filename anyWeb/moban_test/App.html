@@ -3,44 +3,189 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>开始使用layui</title>
+    <title>后台测试</title>
     <script src="/statics/js/jquery.js"></script>
-    <script src="/statics/js/jquery-1.8.2.min.js"></script>
     <link rel="stylesheet" href="/statics/layui/css/layui.css">
-    <script src="/statics/js/LoadPage.js"></script>
     <script src="/statics/layui/layui.js"></script>
+    <script src="/statics/js/LoadPage.js"></script>
+<!--
+    <script src="/statics/js/ztree_help.js"></script>
+-->
 </head>
-<body>
-<div id="head">
-<p>sds</p>
-</div>
-<div id="Content">
-    <p>sds</p>
-</div>
-<div id="foot">
-    <p>sds</p>
-</div>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header  layui-bg-blue">
+        <div class="layui-logo">layui 后台布局</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left  ">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    XZX
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退了</a></li>
+        </ul>
+    </div>
 
-<!-- 你的HTML代码 -->
+    <div class="layui-side layui-bg-black ">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">所有商品</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="javascript:;">列表三</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">解决方案</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item"><a href="">发布商品</a></li>
+            </ul>
+        </div>
+    </div>
 
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+       <!-- <div style="padding: 15px;" id="Content">内容主体区域</div>-->
+        <div class="layui-tab" lay-filter="demo" lay-allowclose="true">
+            <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="11">网站设置</li>
+                <li lay-id="22">用户管理</li>
+                <li lay-id="33">权限分配</li>
+                <li lay-id="44">商品管理</li>
+                <li lay-id="55">订单管理</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show" id="Content">内容1</div>
+            </div>
+        </div>
+        <div class="site-demo-button" style="margin-bottom: 0;">
+            <button class="layui-btn site-demo-active" data-type="tabAdd">新增Tab项</button>
+            <button class="layui-btn site-demo-active" data-type="tabDelete">删除：商品管理</button>
+            <button class="layui-btn site-demo-active" data-type="tabChange">切换到：用户管理</button>
+            <button class="layui-btn site-demo-active" data-type="tabDeleteAll">删除所有</button>
+        </div>
+    </div>
 
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域----xzx
+    </div>
+</div>
 <script>
-    //一般直接写在一个js文件中
-    layui.use(['layer', 'form'], function(){
-        var layer = layui.layer
-            ,form = layui.form;
+    //JavaScript代码区域
+    layui.use(['element'], function() {
+        var $ = layui.jquery;
+        var element = layui.element;
 
-        layer.msg('Hello World');
-    });
+        //触发事件
+        var active = {
+            tabAdd: function () {
+                //新增一个Tab项
+                element.tabAdd('demo', {
+                    title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+                    , content: '内容' + (Math.random() * 1000 | 0)
+                    , id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+                })
+            }
+            , tabDelete: function (othis) {
+                //删除指定Tab项
+                element.tabDelete('demo', '44'); //删除：“商品管理”
+                othis.addClass('layui-btn-disabled');
+            }
+            , tabChange: function () {
+                //切换到指定Tab项
+                element.tabChange('demo', '22'); //切换到：用户管理
+            }
+            , tabDeleteAll: function (othis) {//删除所有
+                var tabtitle = $(".layui-tab-title li");
+                var ids = new Array();
+                $.each(tabtitle, function (i) {
+                    element.tabDelete("demo", $(this).attr("lay-id"));
+                });
+                othis.addClass('layui-btn-disabled');
+            }
+        };
 
-    //$("#Content").html(/home.html);
-    $(function () {
-        load("/view/home/home.html",function (html) {
-            $("#Content").html(html);
+        $('.site-demo-active').on('click', function () {
+            var othis = $(this), type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
         });
 
+        //Hash地址的定位
+        var layid = location.hash.replace(/^#demo=/, '');
+        element.tabChange('demo', layid);
+        //监听切换
+        element.on('tab(demo)', function (elem) {
+            //console.log(this); //当前Tab标题所在的原始DOM元素
+            //console.log(elem.index); //得到当前Tab的所在下标
+            //console.log(elem.elem); //得到当前的Tab大容器
+
+            //typeof $(this).attr("lay-id") == "string"
+            if($.trim($(this).attr("lay-id")) == "22"){
+                load("/view/list/TestLst.html",function (html) {
+                    $("#Content").html(html);
+                });
+            }else{
+                load("/view/common/home.html",function (html) {
+                    $("#Content").html(html);
+                });
+            }
+
+            location.hash = 'test=' + $(this).attr('lay-id');
+        });
+
+        //监听点击
+        element.on('nav(demo)', function(elem){
+            console.log("点击了=========:"+elem); //得到当前点击的DOM对象
+        });
+        //监听删除
+        element.on('tabDelete(demo)', function(data){
+            console.log(this); //当前Tab标题所在的原始DOM元素
+            console.log(data.index); //得到当前Tab的所在下标
+            console.log(data.elem); //得到当前的Tab大容器
+        });
+       /* //监听展开折叠
+        element.on('collapse(demo)', function(data){
+            console.log(data.show); //得到当前面板的展开状态，true或者false
+            console.log(data.title); //得到当前点击面板的标题区域DOM对象
+            console.log(data.content); //得到当前点击面板的内容区域DOM对象
+        });*/
     });
-    //$("#Content").html(html);
+    $(function () {
+        load("/view/common/home.html",function (html) {
+            $("#Content").html(html);
+        });
+    });
+
 </script>
 </body>
 </html>

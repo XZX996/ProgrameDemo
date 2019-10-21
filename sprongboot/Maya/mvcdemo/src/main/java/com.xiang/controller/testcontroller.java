@@ -24,7 +24,7 @@ public class testcontroller{
    }
     @RequestMapping("/home1")
     public String test2(){
-        return "home1";
+        return "Main";
     }
 
    @RequestMapping("/json")

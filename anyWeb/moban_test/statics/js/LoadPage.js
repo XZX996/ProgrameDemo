@@ -4,7 +4,6 @@ function load(url,callback){
         url:url, //需要获取的页面内容
         async:false,
         success:function(data){
-            console.log(data);
             if(typeof callback == 'function')
             callback(data);
         },

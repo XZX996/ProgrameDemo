@@ -25,7 +25,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">验证日期</label>
             <div class="layui-input-inline">
-                <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                <input type="text" name="date" id="date" class="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
@@ -33,22 +33,26 @@
 <table class="layui-hide" id="test"></table>
 
 <script>
+
     layui.use(['form', 'layedit', 'laydate','table'], function() {
         var $ = layui.jquery;
         var form = layui.form
             , layer = layui.layer
             , layedit = layui.layedit
             , laydate = layui.laydate;
-        //日期
-        laydate.render({
-            elem: '#date'
+        $('.date').each(function(){
+            laydate.render({
+                elem: this
+                ,position: 'fixed'
+                ,trigger: 'click'
+                ,format: 'yyyy-MM-dd HH:mm'
+            });
         });
-
         var table = layui.table;
 
         table.render({
             elem: '#test'
-            ,url:'localhost:8080/'
+            ,url:''
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [[
                 {field:'id', title: 'ID', sort: true}

@@ -2,20 +2,24 @@
 <p>我是来自模板1</p>
     <button type="button" class="layui-btn layui-btn-danger">警告按钮</button>
     <button type="button" class="layui-btn layui-btn-disabled">禁用按钮</button>
-    <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+    <input type="text" name="date" class="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
 </div>
 
 <script>
-    layui.use(['form', 'layedit', 'laydate','element'], function() {
+
+    layui.use(['form', 'layedit', 'laydate'], function() {
         var $ = layui.jquery;
-        var element = layui.element;
         var form = layui.form
             , layer = layui.layer
             , layedit = layui.layedit
             , laydate = layui.laydate;
-        //日期
-        laydate.render({
-            elem: '#date'
+        $('.date').each(function(){
+            laydate.render({
+                elem: this
+                ,position: 'fixed'
+                ,trigger: 'click'
+                ,format: 'yyyy-MM-dd HH:mm'
+            });
         });
     });
 </script>

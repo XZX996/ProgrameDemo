@@ -48,6 +48,7 @@
     <div class="layui-side layui-bg-black ">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <div  title="菜单缩放" class="kit-side-fold" style="height: 20px;"><i style="margin-left: 82%;" class="layui-icon layui-icon-shrink-right"></i></div>
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">所有商品</a>
@@ -105,28 +106,21 @@
     </div>
 </div>
 <script>
-    /*load("/home",function (html) {
-        $("#Content").html(html);
-    });*/
-    //JavaScript代码区域
+
     layui.use(['element'], function() {
         var $ = layui.jquery;
         var element = layui.element;
         //触发事件
         var active = {
-            tabAdd: function (url,id,name) {
-                //alert(url+id+name);
+            tabAdd: function (url, id, name) {
                 //新增一个Tab项
-
-                load(url,function (html) {
-                    //$("#Content").html(html);
+                load(url, function (html) {
                     element.tabAdd('demo', {
                         title: name
-                        , content:html
+                        , content: html
                         , id: id
                     });
-                    history.replaceState('hurl', id, url);
-                    //$("#Content").html(html);
+                    history.replaceState(url, id, url);
                 });
             }
             , tabDelete: function (othis) {
@@ -134,11 +128,11 @@
                 element.tabDelete('demo', '44'); //删除：“商品管理”
                 othis.addClass('layui-btn-disabled');
             }
-            , tabChange: function (id,url) {
+            , tabChange: function (id, url) {
                 //切换到指定Tab项
                 element.tabChange('demo', id); //切换到：用户管理
-                var tabtitle = $(".layui-tab-title li").fin;
-                history.replaceState('hurl', id, url);
+                //var tabtitle = $(".layui-tab-title li").fin;
+                history.replaceState(url, id, url);
             }
             , tabDeleteAll: function (othis) {//删除所有
                 var tabtitle = $(".layui-tab-title li");
@@ -150,7 +144,7 @@
             }
         };
 
-        // 配置tab实践在下面无法获取到菜单元素
+        //监听
         $('.site-demo-active').on('click', function () {
             var dataid = $(this);
             type = dataid.data('type');
@@ -174,7 +168,7 @@
                 }
             }
             //最后不管是否新增tab，最后都转到要打开的选项页面上
-            active.tabChange(dataid.attr("data-id"),dataid.attr("data-url"));
+            active.tabChange(dataid.attr("data-id"), dataid.attr("data-url"));
         });
 
         //Hash地址的定位
@@ -182,49 +176,91 @@
         element.tabChange('demo', layid);
         //监听切换
         element.on('tab(demo)', function (elem) {
+
+            //更改地址栏
+            var tabs = $("a[class='site-demo-active' ][data-id='" + $(this).attr("lay-id") + "'] ");
+            history.replaceState(tabs.attr("data-url"), tabs.attr("data-id"), tabs.attr("data-url"));
+
             //console.log(this); //当前Tab标题所在的原始DOM元素
             //console.log(elem.index); //得到当前Tab的所在下标
             //console.log(elem.elem); //得到当前的Tab大容器
-
-            //typeof $(this).attr("lay-id") == "string"
-            /*if($.trim($(this).attr("lay-id")) == "22"){
-                load("/TestLst",function (html) {
-                    $("#Content").html(html);
-                });
-            }else{
-                load("/home",function (html) {
-                    $("#Content").html(html);
-                });
-            }*/
-
             //location.hash = 'test=' + $(this).attr('lay-id');
         });
 
         //监听点击
-        element.on('nav(demo)', function(elem){
-            console.log("点击了=========:"+elem); //得到当前点击的DOM对象
+        element.on('nav(demo)', function (elem) {
+            console.log("点击了=========:" + elem); //得到当前点击的DOM对象
         });
         //监听删除
-        element.on('tabDelete(demo)', function(data){
+        element.on('tabDelete(demo)', function (data) {
             console.log(this); //当前Tab标题所在的原始DOM元素
             console.log(data.index); //得到当前Tab的所在下标
             console.log(data.elem); //得到当前的Tab大容器
         });
-       /* //监听展开折叠
+        /* //监听展开折叠
         element.on('collapse(demo)', function(data){
             console.log(data.show); //得到当前面板的展开状态，true或者false
             console.log(data.title); //得到当前点击面板的标题区域DOM对象
             console.log(data.content); //得到当前点击面板的内容区域DOM对象
         });*/
+
+        //监听刷新,默认加载选中的tab
+        window.onload = function () {
+            if(window.name == ""){
+                console.log("首次被加载"+window.location.pathname
+                );
+                window.name = "isReload"; // 在首次进入页面时我们可以给window.name设置一个固定值
+
+            }else if(window.name == "isReload"){
+                var tabs = $("a[class='site-demo-active' ][data-url='" + window.location.pathname + "'] ");
+                //if ($(".layui-tab-title li").length <= 0) {
+                //如果比零小，则直接打开新的tab项
+                active.tabAdd(window.location.pathname, tabs.attr("data-id"), tabs.attr("data-title"));
+                //最后不管是否新增tab，最后都转到要打开的选项页面上
+                active.tabChange(tabs.attr("data-id"), tabs.attr("data-url"));
+            }
+        }
     });
-
-
-
-
     $(function () {
-        /*load("/view/common/home.html",function (html) {
-            $("#Content").html(html);
-        });*/
+
+    });
+    var isShow = true;  //定义一个标志位
+    $('.kit-side-fold').click(function(){
+        //选择出所有的span，并判断是不是hidden
+        $('.layui-nav-item span').each(function(){
+            if($(this).is(':hidden')){
+                $(this).show();
+            }else{
+                $(this).hide();
+            }
+        });
+        //判断isshow的状态
+        if(isShow){
+            $('.layui-side.layui-bg-black').width(20); //设置宽度
+            $('.kit-side-fold i').css('margin-left', '1%');  //修改图标的位置
+            $('.kit-side-fold i').removeClass("layui-icon-shrink-right");
+            $('.kit-side-fold i').addClass("layui-icon-spread-left");
+            //将footer和body的宽度修改
+            $('.layui-body').css('left', 60+'px');
+            $('.layui-footer').css('left', 60+'px');
+            //将二级导航栏隐藏
+            $('dd span').each(function(){
+                $(this).hide();
+            });
+            //修改标志位
+            isShow =false;
+        }else{
+            $('.layui-side.layui-bg-black').width(200);
+            $('.kit-side-fold i').css('margin-left', '82%');  //修改图标的位置
+            $('.kit-side-fold i').addClass("layui-icon-shrink-right");
+            $('.kit-side-fold i').removeClass("layui-icon-spread-left");
+            $('.layui-body').css('left', 200+'px');
+            $('.layui-footer').css('left', 200+'px');
+            $('dd span').each(function(){
+                $(this).show();
+            });
+            isShow =true;
+        }
     });
 
 </script>

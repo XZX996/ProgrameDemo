@@ -1,5 +1,6 @@
 //1. 路由规则
 const routes={
+    '/':"App.html",
     '/home':"/view/common/home.html",
     '/TestLst':"/view/list/TestLst.html",
     '/formLst':"/view/list/TestLst.html",

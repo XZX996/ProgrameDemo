@@ -1,8 +1,10 @@
+<!--每个子页面有个class和p-id来区分-->
+<div class="Xpage" p-id="test">
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>查询数据</legend>
 </fieldset>
 
-<form class="layui-form" action="">
+<form class="layui-form">
     <div class="layui-form-item">
         <label class="layui-form-label">单行输入框</label>
         <div class="layui-input-block">
@@ -29,11 +31,21 @@
             </div>
         </div>
     </div>
+    <button type="button" class="layui-btn layui-btn-danger " p_click="hello('test,info')">警告按钮</button>
 </form>
-<table class="layui-hide" id="test"></table>
-
+<table class="layui-hide" id="infoTable"></table>
+</div>
 <script>
-
+    //每个页面私有属性
+    var test ={
+        name:'sds',
+        hello:function (arg) {
+            alert("hello"+arg);
+        },
+        add:function (arg1,arg2) {
+            alert("hello"+arg1+":"+arg2);
+        },
+    };
     layui.use(['form', 'layedit', 'laydate','table'], function() {
         var $ = layui.jquery;
         var form = layui.form
@@ -48,23 +60,40 @@
                 ,format: 'yyyy-MM-dd HH:mm'
             });
         });
-        var table = layui.table;
 
-        table.render({
-            elem: '#test'
-            ,url:''
-            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            ,cols: [[
-                {field:'id', title: 'ID', sort: true}
-                ,{field:'username', title: '用户名'} //width 支持：数字、百分比和不填写。你还可以通过 minWidth 参数局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                ,{field:'sex', title: '性别', sort: true}
-                ,{field:'city', title: '城市'}
-                ,{field:'sign', title: '签名'}
-                ,{field:'classify', title: '职业', align: 'center'} //单元格内容水平居中
-                ,{field:'experience', title: '积分', sort: true, align: 'right'} //单元格内容水平居中
-                ,{field:'score', title: '评分', sort: true, align: 'right'}
-                ,{field:'wealth', title: '财富', sort: true, align: 'right'}
-            ]]
+        var table = layui.table;
+        //表头
+        var cols = [[
+            { field: 'orgName', title: '所属组织', width: 200, align: 'left' },
+            { field: 'uname', title: '用户名', align: 'left', templet: function(d){
+                    if (d.checkError){
+                        return d.uname + '<span style="color: red;font-size: 10px;">&nbsp;[数据被篡改]</span>';
+                    } else {
+                        return d.uname;
+                    }
+                }
+            },
+            { field: 'realname', title: '真实姓名', width: 200, align: 'left' },
+            { field: 'tel', title: '联系电话', width: 200, align: 'left' },
+            { field: 'state', title: '状态', width: 100, align: 'center' },
+            { title: '操作', width: 260, align: 'center', toolbar: '#toolbar' }
+        ]];
+        //绘制表格
+        tableIns = render_table(table, '#infoTable', 'full-130', '/test/getList',function (data) {
+            console.log(data);
+            
+        }, cols);
+        tableIns.reload();
+        //监听工具条
+        table.on('tool(tinfo)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                Delete(data.rid);
+            } else if (obj.event === 'edit') {
+                Edit(data.rid);
+            } else if(obj.event === 'authorize'){
+                Authorize(data.rid);
+            }
         });
     });
 </script>

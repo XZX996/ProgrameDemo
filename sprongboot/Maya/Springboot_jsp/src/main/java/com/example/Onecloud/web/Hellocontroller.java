@@ -1,6 +1,7 @@
 package com.example.Onecloud.web;
 
 import com.example.Onecloud.mapper.helloMapper;
+import com.example.Onecloud.pojo.JsonResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import java.util.Properties;
  * @date:2019/3/21
  */
 @Controller
-@RequestMapping
+@RequestMapping("/hello")
 public class Hellocontroller {
    @Autowired
    private helloMapper hd;
@@ -146,6 +147,17 @@ public class Hellocontroller {
         }
 
         return "showImg";
+    }
+
+    @RequestMapping("/getData")
+    public JsonResult getList(@RequestParam Map map) throws Exception {
+        /*if(true){
+            throw new  Exception("sdas");
+        }*/
+        PageHelper.startPage(1,10);
+        PageHelper page=new PageHelper();
+        return new JsonResult().success("sdsdd");
+
     }
 
 }

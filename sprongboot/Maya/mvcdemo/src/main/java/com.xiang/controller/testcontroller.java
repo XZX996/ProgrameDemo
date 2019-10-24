@@ -2,9 +2,13 @@ package com.xiang.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
+
+import java.util.Map;
 
 /**
  * @description:test
@@ -12,10 +16,14 @@ import org.springframework.web.servlet.View;
  * @author:xzx
  * @date:2019/10/17
  */
-@Controller
-@RequestMapping("test")
+@RestController
+@RequestMapping("/test")
 public class testcontroller{
 
+    @RequestMapping("/getList")
+    public String getList(@RequestParam Map map){
+        return "sdasdadsa";
+    }
    @RequestMapping("/home")
    public ModelAndView test(){
        ModelAndView mav = new ModelAndView("home");

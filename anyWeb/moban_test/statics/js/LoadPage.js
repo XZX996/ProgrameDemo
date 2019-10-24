@@ -17,16 +17,33 @@ function load(url,callback){
         type:"get",
         url:routes[url], //需要获取的页面内容
         async:false,
+        beforeSend: function(XMLHttpRequest) {
+            loading();
+            //Pause(this,100000);
+        },
         success:function(data){
             if(typeof callback == 'function')
             callback(data);
            // alert('s');
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+            //隐藏正在查询图片
+            setTimeout(removeLoading,100);
         },
         error:function(e){
             console.log(e);
         }
     });
 }
+
+function loading(){
+    $('#loading').show();
+}
+
+function removeLoading(){
+    $('#loading').hide();
+}
+
 
 /*
 //2. 路由控制类

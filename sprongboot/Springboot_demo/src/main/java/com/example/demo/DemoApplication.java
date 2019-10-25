@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -18,6 +19,7 @@ import javax.servlet.MultipartConfigElement;
 /*开启缓存*/
 @EnableScheduling
 @EnableCaching
+@EnableSwagger2
 public class DemoApplication {
 
 	public static void main(String[] args) {
@@ -25,9 +27,9 @@ public class DemoApplication {
 	}
 	@Bean
 	MultipartConfigElement multipartConfigElement(){
-		MultipartConfigFactory ConfigFactory=new MultipartConfigFactory();
-		ConfigFactory.setLocation("D:/JavaDemo/Maya/Springboot_demo/src/main/webapp/upload");
-		return ConfigFactory.createMultipartConfig();
+		MultipartConfigFactory configFactory =new MultipartConfigFactory();
+		configFactory .setLocation("D:/JavaDemo/Maya/Springboot_demo/src/main/webapp/upload");
+		return configFactory .createMultipartConfig();
 	}
 
 

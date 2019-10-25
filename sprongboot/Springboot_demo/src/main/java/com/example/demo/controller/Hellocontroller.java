@@ -1,9 +1,11 @@
-package com.example.demo.web;
+package com.example.demo.controller;
 
 import com.example.demo.Dao.helloMapper;
 import com.example.demo.pojo.JsonResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +26,12 @@ import java.util.Properties;
  */
 @RestController
 @RequestMapping("/hello")
+@Api(value = "测试模块")
 public class Hellocontroller {
    @Autowired
    helloMapper hd;
     @RequestMapping(value = "/getList")
+    @ApiOperation(value = "查询数据", notes = "")
     public JsonResult getList() throws Exception {
 
         PageHelper.startPage(1,10);
@@ -69,7 +73,7 @@ public class Hellocontroller {
 
     @GetMapping("/upload")
 
-    public java.lang.String getupload(HttpServletRequest re, @RequestParam("file") MultipartFile mf, Model m) throws  Exception{
+    public String getupload(HttpServletRequest re, @RequestParam("file") MultipartFile mf, Model m) throws  Exception{
         if (mf.isEmpty()) {
             m.addAttribute("info","文件为空");
         }

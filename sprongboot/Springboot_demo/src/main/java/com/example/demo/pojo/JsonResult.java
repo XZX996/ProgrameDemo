@@ -5,12 +5,12 @@ import net.sf.json.JSONObject;
 
 public class JsonResult{
 
-    @Override
+   /* @Override
     public String toString() {
         return new StringBuilder().append("{\"meta\":\"").append(this.meta.toString())
                 .append("\",\"data\":\"").append(this.data != null ? this.data.toString() : "\"\"")
                 .append("\"}").toString();
-    }
+    }*/
 
     public void setMeta(Meta meta) {
         this.meta = meta;

@@ -1,4 +1,4 @@
-package com.example.demo.web;
+package com.example.demo.controller;
 
 import com.example.demo.pojo.JsonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;

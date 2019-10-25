@@ -1,4 +1,4 @@
-package com.example.demo.web;
+package com.example.demo.controller;
 
 import com.example.demo.Dao.userMapper;
 import com.example.demo.common.Iphelper;
@@ -47,12 +47,24 @@ public class Logincontroller {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public JsonResult logout(HttpServletRequest request) {
-      /*  Subject subject = SecurityUtils.getSubject();
-        //注销
-        subject.logout();  */
-        String ss=request.getHeader("Authorization");   //Authorization
-        WebContextUtil.session.removeAttribute(ss);
-        return new JsonResult().success("成功注销");
+
+        //Subject subject = SecurityUtils.getSubject();
+       // String loginName = (String) subject.getPrincipal();
+        //String IP= Iphelper.getIpAddr(httpServletRequest);
+        //String ss=request.getHeader("Authorization");   //Authorization
+        //判断是否异地登录 通过token和ip匹配比较
+        //String tokenid = new SimpleHash("md5",user.username+user.password1).toString();
+        String ss=request.getHeader("ticket");   //Authorization
+        if(ss!=null) {
+            Subject subject = SecurityUtils.getSubject();
+            //注销
+            WebContextUtil.session=null;
+            subject.logout();
+
+            return new JsonResult().success("成功注销");
+        }else{
+            return new JsonResult().success("注销异常");
+        }
     }
     /**
      * 登陆
@@ -96,6 +108,7 @@ public class Logincontroller {
             WebContextUtil.session.setAttribute(tokenid,IP);
             //session.setAttribute(user.username+"012",user);
         } catch (Exception e) {
+             sysUser.setLoginFailNum(user.getLoginFailNum() + 1);
              throw e;
         } finally {
         }

@@ -19,4 +19,25 @@
             </if>
         </where>
     </select>
+    <select id="getMenus" resultType="java.lang.String">
+        select url
+  from adminserver.sys_resource
+ where resource_id in
+       (select resource_id
+          from adminserver.sys_resource_role
+         where role_id in
+               (select role_id
+                  from adminserver.sys_user_role
+                 where user_id in
+                       (select user_id from adminserver.sys_user
+        <where>
+            <if test="loginName!=null and loginName!=''">
+                loginname=#{loginName}
+            </if>
+        </where>
+        )))
+    </select>
+    <select id="getAllMenus" resultType="java.lang.String">
+        select url from adminserver.sys_resource
+    </select>
 </mapper>

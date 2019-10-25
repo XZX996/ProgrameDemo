@@ -10,7 +10,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -22,7 +24,6 @@ public class CustomRealm extends AuthorizingRealm {
     private void setUserMapper(userMapper userMapper) {
         this.userMapper = userMapper;
     }
-
     /**
      * 获取身份验证信息
      * Shiro中，最终是通过 Realm 来获取应用程序中的用户、角色及权限信息的。
@@ -61,19 +62,28 @@ public class CustomRealm extends AuthorizingRealm {
      * @param principalCollection
      * @return
      */
+    //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("————权限认证————");
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        //获得该用户角色
-        String role = userMapper.getRole(username);
-        Set<String> set = new HashSet<>();
-        //需要将 role 封装到 Set 作为 info.setRoles() 的参数
-        set.add(role);
-        //设置该用户拥有的角色
-        info.setRoles(set);
-        return info;
+        String loginName = (String) principalCollection.getPrimaryPrincipal();
+        //SysUser user = sysUserService.getUserByUname(loginName);
+        List<String> permissions = new ArrayList<String>();
+        List<String> roles = new ArrayList<String>();//角色待处理
+        //通过名字获取菜单
+        List<String> sysMenus = userMapper.getMenus(loginName);
+        for (String item : sysMenus) {
+            permissions.add(item);
+            /*if (item.getService() != null && item.getService().equals("stardon_main")) {
+                permissions.add("/" + item.getController() + "/" + item.getAction());
+                //logger.info(loginName+"===>perms[/" + item.getController() + "/" + item.getAction() + "]");
+            } else {
+                permissions.add("/" + item.getService() + "/" + item.getController() + "/" + item.getAction());
+                //logger.info(loginName+"===>perms[/" + item.getService() + "/" + item.getController() + "/" + item.getAction() + "]");
+            }*/
+        }
+        SimpleAuthorizationInfo authInfo = new SimpleAuthorizationInfo();
+        authInfo.addStringPermissions(permissions);
+        authInfo.addRoles(roles);
+        return authInfo;
     }
-
 }

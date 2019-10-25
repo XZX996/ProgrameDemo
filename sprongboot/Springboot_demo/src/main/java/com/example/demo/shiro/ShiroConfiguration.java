@@ -1,12 +1,15 @@
 package com.example.demo.shiro;
 
 
+import com.example.demo.Dao.userMapper;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -14,9 +17,14 @@ import org.springframework.context.annotation.DependsOn;
 import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 @Configuration
 public class ShiroConfiguration {
+    @Autowired
+    private userMapper userMapper;
+
+
     @Bean
     public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
@@ -43,41 +51,23 @@ public class ShiroConfiguration {
         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
         //自定义拦截器
         Map<String, Filter> customisedFilter = new HashMap<>();
-        customisedFilter.put("authc", new CustomFormAuthenticationFilter());
-        //设置登出拦截器重定向url
-        /*LogoutFilter logoutFilter = new LogoutFilter();
-        logoutFilter.setRedirectUrl("/login/logout");
-        customisedFilter.put("logout", logoutFilter);*/
+        //未登录
+        customisedFilter.put("authc", new NoAuthenticationFilter());
+        //权限不足
+        customisedFilter.put("perms", new NoAuthorizationFilter());
 
         shiroFilterFactoryBean.setFilters(customisedFilter);
 
-
-        //游客，开发权限
-        filterChainDefinitionMap.put("/guest/**", "anon");
-        //用户，需要角色权限 “user”
-        filterChainDefinitionMap.put("/user/**", "roles[2]");
-        //管理员，需要角色权限 “admin”
-        filterChainDefinitionMap.put("/admin/**", "roles[1]");
-        //开放登陆接口
-        filterChainDefinitionMap.put("/login/login", "anon");
-
-        //filterChainDefinitionMap.put("/login/logout", "logout");
-
-        //其余接口一律拦截
-        //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
-        filterChainDefinitionMap.put("/**", "authc");
-
+        List<String> sysMenus = userMapper.getAllMenus();
+        Map<String, String> filterMap = FileterChainMap.getPermissionMap(sysMenus);
         // 登录成功后要跳转的链接
         shiroFilterFactoryBean.setSuccessUrl("/hello/getList");
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         // setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
         shiroFilterFactoryBean.setLoginUrl("/login/notLogin");
-
         // 设置无权限时跳转的 url;
         shiroFilterFactoryBean.setUnauthorizedUrl("/login/notRole");
-
-
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         System.out.println("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }
@@ -123,5 +113,28 @@ public class ShiroConfiguration {
         DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
         advisorAutoProxyCreator.setProxyTargetClass(true);
         return advisorAutoProxyCreator;
+    }
+
+    /*
+     * ehcache缓存管理器；shiro整合ehcache：
+     * 通过安全管理器：securityManager
+     * 单例的cache防止热部署重启失败
+     *
+     * @return EhCacheManager
+     */
+
+    @Bean
+    public EhCacheManager ehCacheManager() {
+        EhCacheManager ehcache = new EhCacheManager();
+        CacheManager cacheManager = CacheManager.getCacheManager("shiro");
+        if (cacheManager == null) {
+            try {
+                cacheManager = CacheManager.create(ResourceUtils.getInputStreamForPath("classpath:ehcache.xml"));
+            } catch (CacheException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+        ehcache.setCacheManager(cacheManager);
+        return ehcache;
     }
 }

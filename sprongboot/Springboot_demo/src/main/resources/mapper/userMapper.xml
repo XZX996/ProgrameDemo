@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.Dao.userMapper">
+
+    <select id="getPassword" resultType="java.lang.String">
+        select password from adminserver.sys_user
+        <where>
+            <if test="name!=null and name!=''">
+                loginname=#{name}
+            </if>
+        </where>
+    </select>
+
+    <select id="getRole" resultType="java.lang.String">
+        select f.role_id from adminserver.sys_user_role f join adminserver.sys_user t on f.user_id=t.user_id
+        <where>
+            <if test="name!=null and name!=''">
+                t.loginname=#{name}
+            </if>
+        </where>
+    </select>
+</mapper>

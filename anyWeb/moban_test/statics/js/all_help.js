@@ -134,12 +134,13 @@ function render_table(table, elem, height, url, where, cols) {
         , url: base_url + url
         //, headers: { "token":"token" }
         , parseData: function (res) {
-            return {
+            alert(res);
+            /*return {
                 "code": res.code,
                 "msg": res.msg,
                 "count": res.count,
                 "data": res.data
-            };
+            };*/
         }
         , method: 'POST'
         , where: where

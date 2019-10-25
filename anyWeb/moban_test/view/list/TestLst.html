@@ -40,7 +40,10 @@
     var test ={
         name:'sds',
         hello:function (arg) {
-            alert("hello"+arg);
+            tableIns.reload({
+                where:''
+                , page: {curr: 1}
+            });
         },
         add:function (arg1,arg2) {
             alert("hello"+arg1+":"+arg2);

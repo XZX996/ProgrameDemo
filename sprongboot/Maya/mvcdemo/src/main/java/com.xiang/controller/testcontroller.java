@@ -1,5 +1,6 @@
 package com.xiang.controller;
 
+import com.xiang.dto.JsonResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,8 +22,8 @@ import java.util.Map;
 public class testcontroller{
 
     @RequestMapping("/getList")
-    public String getList(@RequestParam Map map){
-        return "sdasdadsa";
+    public JsonResult getList(@RequestParam Map map){
+        return new JsonResult().success("sussd");
     }
    @RequestMapping("/home")
    public ModelAndView test(){

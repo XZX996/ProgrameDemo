@@ -19,10 +19,16 @@
     -->
 
     </bean>
+    <!-- 开启注解扫描 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
      <!-- 自动扫描装配 -->
     <context:component-scan base-package="com.xiang.controller"/>
-    <mvc:annotation-driven/>
     <mvc:resources  mapping="/image/**" location="/image/"/>
     <mvc:resources  mapping="/js/**" location="/js/"/>
     <mvc:resources  mapping="/css/**" location="/css/"/>

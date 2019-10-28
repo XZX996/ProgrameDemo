@@ -1,10 +1,8 @@
-var base_url="http://localhost:8080";
+var base_url="http://localhost:8088";
 var time_out=3000;
-
-function login(){
-    alert("登陆成功");
-    window.location='App.html';
-}
+layui.use('layer', function(){
+    layer1 = layui.layer;
+});
 
 /**
  * 页面帮助区
@@ -63,7 +61,7 @@ $('.kit-side-fold').click(function(){
  * **/
 //定义锁，防止重复的提交
 var lock = false;
-function _base_ajax(url, type, dataType, headers, data, async, timeout, success) {
+function _base_ajax(url, type, dataType, headers, data, async, timeout,index,success) {
     jQuery.support.cors = true;
     if(!lock) {
         $.ajax({
@@ -84,33 +82,52 @@ function _base_ajax(url, type, dataType, headers, data, async, timeout, success)
                     alert(JSON.stringify(XMLHttpRequest));
                 }
                 lock = false;
+                layer.close(index);
             },
             success: function (d) {
-                if (d.code == -1001) {
-                    //alert("登录超时，请先登录！");
-                    //top.location = lw_login_url;
-
-                } else if (d.code == -1007) {
-                    alert(d.msg);
-                    //top.location = lw_login_url;
-                    window.name = "";
-                    //setAuth("");
-                } else {
+                lock = false;
+                if (d.code == '1') {
+                    window.location=base_url+"/login";
+                }
+                else {
                     //回调
                     success(d);
+                    layer.close(index);
                 }
             }
         });
     }
 }
 //基本带回调查询
-function base_search(url,callback) {
+function base_search(url,index,callback) {
     //url, type, dataType, headers, data, async, timeout, success
     let data = $("form").serialize();
-    _base_ajax(url,'POST','JSON',{'token':'token'},data,true,time_out,function () {
+    _base_ajax(url,'POST','JSON',{'token': sessionStorage['ticket']},data,true,time_out,index,function () {
         if(typeof callback=='function'){
             callback();
         }
+    })
+}
+//基本带回调查询
+function login(url,data,index,callback) {
+    //url, type, dataType, headers, data, async, timeout, success
+    _base_ajax(url,'POST','JSON',{'token':''},data,true,time_out,index,function (data) {
+        if(typeof callback=='function'){
+            alert(data.data);
+            sessionStorage.setItem("ticket", data.data);
+            callback(data);
+        }
+    })
+}
+//基本带回调查询
+function loginOut() {
+    var index = layer.load(1, {
+        shade: [0.1,'#fff'], //0.1透明度的白色背景
+    });
+    //url, type, dataType, headers, data, async, timeout, success
+    _base_ajax('/login/logout','GET','JSON',{'ticket':sessionStorage['ticket']},null,false,time_out,index,function (data) {
+            sessionStorage.removeItem("ticket");
+            window.location='/login.html';
     })
 }
 
@@ -132,9 +149,9 @@ function render_table(table, elem, height, url, where, cols) {
         elem: elem
         , height: height
         , url: base_url + url
-        //, headers: { "token":"token" }
+        , headers: { "ticket":sessionStorage['ticket']}
         , parseData: function (res) {
-            alert(res);
+            console.log(res);
             /*return {
                 "code": res.code,
                 "msg": res.msg,

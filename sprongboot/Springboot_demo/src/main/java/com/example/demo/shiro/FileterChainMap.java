@@ -66,6 +66,7 @@ static Logger logger = LoggerFactory.getLogger(FileterChainMap.class);
         filterMap.put("/guest/**", "anon");
         //开放登陆接口
         filterMap.put("/login/login", "anon");
+        filterMap.put("/login/Unlock", "anon");
         //对swagger开放
         filterMap.put("/swagger", "anon");
         filterMap.put("/swagger-ui.html", "anon");

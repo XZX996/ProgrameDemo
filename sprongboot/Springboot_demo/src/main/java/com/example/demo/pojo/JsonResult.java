@@ -62,9 +62,6 @@ public class JsonResult{
          * 请求错误
          */
         Err400(400, "请求错误。"),
-        Err401(401, "当前请求需要用户验证。"),
-        Err404(404, "请求失败，请求所希望得到的资源未被在服务器上发现。"),
-
         /**
          * 服务器错误
          */
@@ -79,7 +76,9 @@ public class JsonResult{
         Err3(3,"权限不足"),
         Err2(2, "用户不存在！"),
         Err5(5,"异地登陆"),
-        Err4(4,"密码错误");
+        Err4(4,"密码错误"),
+        Err7(7,"用户信息不对"),
+        Err6(6,"用户被锁");
         Integer code;
         String message;
 

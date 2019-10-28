@@ -10,10 +10,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public class CustomRealm extends AuthorizingRealm {
@@ -39,20 +36,20 @@ public class CustomRealm extends AuthorizingRealm {
         String username = token.getUsername();
         //String password1 = String.valueOf(token.getPassword());
         // 从数据库获取对应用户名密码的用户
-        String password = userMapper.getPassword(token.getUsername());
-        String pp=new String((char[]) token.getCredentials());
-        String passwordEncoded = new SimpleHash("md5",pp).toString();
+        Map user = userMapper.getCurrentUser(token.getUsername());
+        String password=user.get("PASSWORD").toString();
         if (null == password) {
             throw new UnknownAccountException ("用户名不正确");
-        } else if (!password.equals(passwordEncoded)) {
-            throw new IncorrectCredentialsException ("密码不正确");
+        }
+        else if ("1".equals(user.get("ISLOCK"))) {
+            throw new LockedAccountException ("用户被锁定");
         }
         //Object ss=token.getPrincipal();
         //第一个参数就是我们需要在保存在shiro中的session中的对象，
         // 注入第二参数是从数据库中查询出来的正确的密码，shiro会自动判断，如果此密码和刚才传递的密码不一致会上抛异常
         //第三个参数是盐，
         //第四个参数是自定义的realm的名字，改方法可以重写自己随意更改
-        SimpleAuthenticationInfo simpleAuthenticationInfo= new SimpleAuthenticationInfo(username, pp, getName());
+        SimpleAuthenticationInfo simpleAuthenticationInfo= new SimpleAuthenticationInfo(user.get("LOGINNAME").toString(), user.get("PASSWORD").toString(), getName());
         return simpleAuthenticationInfo;
     }
 

@@ -15,7 +15,7 @@ public class NoAuthenticationFilter extends FormAuthenticationFilter {
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-		String ss=httpServletRequest.getHeader("ticket");   //Authorization
+		String ss=httpServletRequest.getHeader("JSESSIONID");   //Authorization
 
 		if(WebContextUtil.session!=null) {
 			Object info = WebContextUtil.session.getAttribute(ss);

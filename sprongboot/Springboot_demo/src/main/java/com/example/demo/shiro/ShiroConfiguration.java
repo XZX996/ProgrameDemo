@@ -2,7 +2,11 @@ package com.example.demo.shiro;
 
 
 import com.example.demo.Dao.userMapper;
+import com.example.demo.common.RetryLimitCredentialsMatcher;
+import net.sf.ehcache.CacheException;
+import net.sf.ehcache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.io.ResourceUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -92,7 +96,11 @@ public class ShiroConfiguration {
      */
     @Bean
     public CustomRealm customRealm() {
-        return new CustomRealm();
+        //配置自定义密码比较器
+        //customRealm.setCredentialsMatcher(retryLimitHashedCredentialsMatcher());
+        CustomRealm customRealm1 = new CustomRealm();
+        customRealm1.setCredentialsMatcher(retryLimitHashedCredentialsMatcher());
+        return  customRealm1;
     }
 
     /**
@@ -123,7 +131,7 @@ public class ShiroConfiguration {
      * @return EhCacheManager
      */
 
-    @Bean
+   /* @Bean
     public EhCacheManager ehCacheManager() {
         EhCacheManager ehcache = new EhCacheManager();
         CacheManager cacheManager = CacheManager.getCacheManager("shiro");
@@ -136,5 +144,28 @@ public class ShiroConfiguration {
         }
         ehcache.setCacheManager(cacheManager);
         return ehcache;
+    }*/
+   @Bean
+   public EhCacheManager ehCacheManager(){
+       EhCacheManager cacheManager = new EhCacheManager();
+       cacheManager.setCacheManagerConfigFile("classpath:ehcache.xml");
+       return cacheManager;
+   }
+    /**
+     * 配置密码比较器
+     * @return
+     */
+    @Bean("credentialsMatcher")
+    public RetryLimitCredentialsMatcher retryLimitHashedCredentialsMatcher(){
+        RetryLimitCredentialsMatcher retryLimitCredentialsMatcher = new RetryLimitCredentialsMatcher(ehCacheManager());
+
+        //如果密码加密,可以打开下面配置
+        //加密算法的名称
+        retryLimitCredentialsMatcher.setHashAlgorithmName("MD5");
+        //配置加密的次数
+        retryLimitCredentialsMatcher.setHashIterations(1);
+        //是否存储为16进制
+        //retryLimitCredentialsMatcher.setStoredCredentialsHexEncoded(true);
+        return retryLimitCredentialsMatcher;
     }
 }

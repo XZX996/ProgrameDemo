@@ -4,12 +4,14 @@ import com.example.demo.Dao.userMapper;
 import com.example.demo.common.Iphelper;
 import com.example.demo.common.OperationLog;
 import com.example.demo.common.OperationType;
+import com.example.demo.common.RetryLimitCredentialsMatcher;
 import com.example.demo.pojo.JsonResult;
 import com.example.demo.pojo.UserInfo;
 import com.example.demo.shiro.WebContextUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @description:登录控制器
@@ -33,10 +37,27 @@ public class Logincontroller {
 
     @Autowired
     private userMapper userMapper;
+    @Autowired
+    private RetryLimitCredentialsMatcher credentialsMatcher;
 
     @RequestMapping(value = "/notLogin", method = RequestMethod.GET)
     public JsonResult notLogin() {
         return new JsonResult().failure(JsonResult.Meta.Err1,"需要登录");
+
+    }
+
+    @RequestMapping(value = "/Unlock", method = RequestMethod.GET)
+    public JsonResult Unlock(UserInfo user) {
+        Map muser=new HashMap();
+        muser.put("LOGINNAME",user.username);
+        String passwordEncoded = new SimpleHash("md5",user.password1).toString();
+        muser.put("PASSWORD",passwordEncoded);
+        muser.put("ISLOCK",'0');
+        if(credentialsMatcher.unlockAccount(muser)) {
+            return new JsonResult().success("成功解锁");
+        }else {
+            return new JsonResult().failure(JsonResult.Meta.Err7);
+        }
 
     }
 
@@ -54,9 +75,10 @@ public class Logincontroller {
         //String ss=request.getHeader("Authorization");   //Authorization
         //判断是否异地登录 通过token和ip匹配比较
         //String tokenid = new SimpleHash("md5",user.username+user.password1).toString();
-        String ss=request.getHeader("ticket");   //Authorization
-        if(ss!=null) {
-            Subject subject = SecurityUtils.getSubject();
+        String ss=request.getHeader("JSESSIONID");   //Authorization
+        Subject subject = SecurityUtils.getSubject();
+        String loginName = (String) subject.getPrincipal();
+        if(ss!=null &&(loginName!=null || loginName !="")) {
             //注销
             WebContextUtil.session=null;
             subject.logout();
@@ -108,7 +130,6 @@ public class Logincontroller {
             WebContextUtil.session.setAttribute(tokenid,IP);
             //session.setAttribute(user.username+"012",user);
         } catch (Exception e) {
-             sysUser.setLoginFailNum(user.getLoginFailNum() + 1);
              throw e;
         } finally {
         }

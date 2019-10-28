@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface userMapper {
@@ -19,5 +20,11 @@ public interface userMapper {
 
     //获取所有菜单
     List<String> getAllMenus();
+
+    //获取当前用户
+    Map getCurrentUser(@Param("name") String name);
+
+    //更改当前用户信息
+    int updateUser(Map map);
 
 }

@@ -213,6 +213,10 @@
 			<artifactId>shiro-ehcache</artifactId>
 			<version>1.4.0</version>
 		</dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+        </dependency>
     </dependencies>
 	<dependencyManagement>
 		<dependencies>

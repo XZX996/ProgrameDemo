@@ -14,6 +14,7 @@ public class NoAuthenticationFilter extends FormAuthenticationFilter {
 
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		String ss=httpServletRequest.getHeader("JSESSIONID");   //Authorization
 
@@ -21,9 +22,9 @@ public class NoAuthenticationFilter extends FormAuthenticationFilter {
 			Object info = WebContextUtil.session.getAttribute(ss);
 			String IP= Iphelper.getIpAddr(httpServletRequest);
 			//Object user = SecurityUtils.getSubject().getPrincipal();
-			if (info == IP) {
+			//if (info == IP) {
 				return true;
-			}
+			//}
 		}
 		return super.onAccessDenied(request, response);
 		/*if (httpServletRequest.getMethod().equals("OPTIONS")) {

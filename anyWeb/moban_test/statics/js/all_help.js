@@ -87,12 +87,15 @@ function _base_ajax(url, type, dataType, headers, data, async, timeout,index,suc
             success: function (d) {
                 lock = false;
                 if (d.code == '1') {
-                    window.location=base_url+"/login";
+                    DelToken("JSESSIONID");
+                    window.location.href="/login.html";
+                    layer.close(index);
                 }
                 else {
+                    layer.close(index);
                     //回调
                     success(d);
-                    layer.close(index);
+
                 }
             }
         });
@@ -102,7 +105,7 @@ function _base_ajax(url, type, dataType, headers, data, async, timeout,index,suc
 function base_search(url,index,callback) {
     //url, type, dataType, headers, data, async, timeout, success
     let data = $("form").serialize();
-    _base_ajax(url,'POST','JSON',{'token': sessionStorage['ticket']},data,true,time_out,index,function () {
+    _base_ajax(url,'POST','JSON',{'JSESSIONID': getToken()},data,true,time_out,index,function () {
         if(typeof callback=='function'){
             callback();
         }
@@ -111,10 +114,9 @@ function base_search(url,index,callback) {
 //基本带回调查询
 function login(url,data,index,callback) {
     //url, type, dataType, headers, data, async, timeout, success
-    _base_ajax(url,'POST','JSON',{'token':''},data,true,time_out,index,function (data) {
+    _base_ajax(url,'POST','JSON',{'JSESSIONID':''},data,true,time_out,index,function (data) {
         if(typeof callback=='function'){
-            alert(data.data);
-            sessionStorage.setItem("ticket", data.data);
+            setToken(data.data);
             callback(data);
         }
     })
@@ -125,9 +127,9 @@ function loginOut() {
         shade: [0.1,'#fff'], //0.1透明度的白色背景
     });
     //url, type, dataType, headers, data, async, timeout, success
-    _base_ajax('/login/logout','GET','JSON',{'ticket':sessionStorage['ticket']},null,false,time_out,index,function (data) {
-            sessionStorage.removeItem("ticket");
-            window.location='/login.html';
+    _base_ajax('/login/logout','GET','JSON',{'JSESSIONID':getToken()},null,false,time_out,index,function (data) {
+            DelToken("JSESSIONID");
+            window.location.href='/login.html';
     })
 }
 
@@ -149,26 +151,57 @@ function render_table(table, elem, height, url, where, cols) {
         elem: elem
         , height: height
         , url: base_url + url
-        , headers: { "ticket":sessionStorage['ticket']}
+        , headers: { "JSESSIONID":getToken()}
+        ,response:{
+            statusName:'code', //规定返回的状态码字段为code
+            statusCode:200 //规定成功的状态码味200
+        }
         , parseData: function (res) {
-            console.log(res);
-            /*return {
-                "code": res.code,
-                "msg": res.msg,
-                "count": res.count,
-                "data": res.data
-            };*/
+            if (res.meta.code == '1') {
+                DelToken("JSESSIONID");
+                window.location.href="/login.html";
+            }
+            console.log(res.data.list);
+            return {
+                "code":res.meta.code,
+                "msg": res.meta.message,
+                "count": res.data.total,
+                "data": res.data.list
+            };
         }
         , method: 'POST'
         , where: where
         , page: true
         , even: false
-        , limits: [10, 20, 30, 50]
+        , limits:[10, 20, 30, 50]
         , cols: cols
         , done: function (res, curr, count) {
             custom_style();
         }
-
-
     });
+
+}
+
+/*操作jessionId*/
+function getToken() {
+    if(window.sessionStorage){
+       return sessionStorage.getItem('JSESSIONID');
+    }else{
+        return $.cookie('JSESSIONID');
+    }
+
+}
+function setToken(data) {
+    if(window.sessionStorage){
+        sessionStorage.setItem('JSESSIONID',data);
+    }else{
+        $.cookie('JSESSIONID', data, { expires: 7 });
+    }
+}
+function DelToken(key) {
+    if(window.sessionStorage){
+        sessionStorage.removeItem(key);
+    }else{
+        $.cookie(key, null);
+    }
 }

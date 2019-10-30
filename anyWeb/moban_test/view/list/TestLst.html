@@ -33,17 +33,22 @@
     </div>
     <button type="button" class="layui-btn layui-btn-danger " p_click="hello('test,info')">警告按钮</button>
 </form>
-<table class="layui-hide" id="infoTable"></table>
+<table lay-filter="tinfo" id="infoTable1"></table>
 </div>
 <script>
     //每个页面私有属性
     var test ={
         name:'sds',
+        tableIns:null,
         hello:function (arg) {
-            tableIns.reload({
-                where:''
+            this.tableIns.reload({
+                where:this.where
                 , page: {curr: 1}
             });
+        },
+        where:function () {
+            var query = {};
+            return query;
         },
         add:function (arg1,arg2) {
             alert("hello"+arg1+":"+arg2);
@@ -63,30 +68,27 @@
                 ,format: 'yyyy-MM-dd HH:mm'
             });
         });
-
         var table = layui.table;
+        //表格实例
         //表头
         var cols = [[
-            { field: 'orgName', title: '所属组织', width: 200, align: 'left' },
-            { field: 'uname', title: '用户名', align: 'left', templet: function(d){
-                    if (d.checkError){
-                        return d.uname + '<span style="color: red;font-size: 10px;">&nbsp;[数据被篡改]</span>';
-                    } else {
-                        return d.uname;
-                    }
-                }
-            },
-            { field: 'realname', title: '真实姓名', width: 200, align: 'left' },
-            { field: 'tel', title: '联系电话', width: 200, align: 'left' },
-            { field: 'state', title: '状态', width: 100, align: 'center' },
+            { field: 'CODE_DESCRIBE', title: '所属组织', width: 200, align: 'left' },
+            { field: 'CODE_VALUE', title: '用户名', align: 'left'},
+            /*templet: function(d){
+            if (d.CODE_STATUS=='1'){
+                return d.uname + '<span style="color: red;font-size: 10px;">&nbsp;[数据被篡改]</span>';
+            } else {
+                return d.uname;
+            }
+        }*/
+            { field: 'CODE_CACHE', title: '真实姓名', width: 200, align: 'left' },
+            { field: 'code_id', title: '联系电话', width: 200, align: 'left' },
+            { field: 'TYPE_ID', title: '状态', width: 100, align: 'center' },
             { title: '操作', width: 260, align: 'center', toolbar: '#toolbar' }
         ]];
         //绘制表格
-        tableIns = render_table(table, '#infoTable', 'full-130', '/hello/getList',function (data) {
-            console.log(data);
-            
-        }, cols);
-        tableIns.reload();
+        test.tableIns = render_table(table, '#infoTable1', 'full-130', '/hello/getList',test.where(), cols);
+        //test.tableIns.reload();
         //监听工具条
         table.on('tool(tinfo)', function (obj) {
             var data = obj.data;

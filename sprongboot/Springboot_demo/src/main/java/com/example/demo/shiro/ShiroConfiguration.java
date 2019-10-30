@@ -8,6 +8,7 @@ import net.sf.ehcache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.io.ResourceUtils;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -167,5 +168,30 @@ public class ShiroConfiguration {
         //是否存储为16进制
         //retryLimitCredentialsMatcher.setStoredCredentialsHexEncoded(true);
         return retryLimitCredentialsMatcher;
+    }
+
+    //自定义sessionManager，处理token获取
+    @Bean(name="sessionManager")
+    public SessionManager sessionManager() {
+        MySessionManager mySessionManager = new MySessionManager();
+
+        //全局会话超时时间（单位毫秒），默认30分钟
+        long timeout = 1800000L;
+
+        //mySessionManager.setSessionDAO(sessionDao);
+
+        mySessionManager.setGlobalSessionTimeout(timeout);
+        //是否开启删除无效的session对象  默认为true
+        mySessionManager.setDeleteInvalidSessions(true);
+        //是否开启定时调度器进行检测过期session 默认为true
+        mySessionManager.setSessionValidationSchedulerEnabled(true);
+        //设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 1个小时
+        //设置该属性 就不需要设置 ExecutorServiceSessionValidationScheduler 底层也是默认自动调用ExecutorServiceSessionValidationScheduler
+        mySessionManager.setSessionValidationInterval(3600000L);
+        //取消url 后面的 JSESSIONID
+        mySessionManager.setSessionIdUrlRewritingEnabled(false);
+        mySessionManager.setSessionIdCookieEnabled(false);
+        mySessionManager.setSessionIdCookieEnabled(false);
+        return mySessionManager;
     }
 }

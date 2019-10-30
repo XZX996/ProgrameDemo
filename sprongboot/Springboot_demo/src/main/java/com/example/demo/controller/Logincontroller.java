@@ -110,11 +110,12 @@ public class Logincontroller {
         //String ss=request.getHeader("Authorization");   //Authorization
         //判断是否异地登录 通过token和ip匹配比较
         tokenid = new SimpleHash("md5",user.username+user.password1).toString();
+        String JSESSIONID = subject.getSession().getId().toString();
         if(WebContextUtil.session!=null) {
-            Object info = WebContextUtil.session.getAttribute(tokenid);
+            Object info = WebContextUtil.session.getAttribute(JSESSIONID);
             //Object user = SecurityUtils.getSubject().getPrincipal();
             if (info != IP && info!=null) {
-                WebContextUtil.session.removeAttribute(tokenid);
+                WebContextUtil.session.removeAttribute(JSESSIONID);
                 throw new Exception("重复登陆");
             }
         }
@@ -127,7 +128,7 @@ public class Logincontroller {
             //设置不活跃 30分钟失效
             WebContextUtil.session.setMaxInactiveInterval(30*60);
             //获取IP 拼接token
-            WebContextUtil.session.setAttribute(tokenid,IP);
+            WebContextUtil.session.setAttribute(JSESSIONID,IP);
             //session.setAttribute(user.username+"012",user);
         } catch (Exception e) {
              throw e;
@@ -136,10 +137,10 @@ public class Logincontroller {
         //根据权限，指定返回数据
         String role = userMapper.getRole(user.username);
         if ("2".equals(role)) {
-            return new JsonResult().success(tokenid);
+            return new JsonResult().success(JSESSIONID);
         }
         if ("1".equals(role)) {
-            return new JsonResult().success(tokenid);
+            return new JsonResult().success(JSESSIONID);
         }
         return new JsonResult().failure(JsonResult.Meta.Err3,"权限错误！");
     }

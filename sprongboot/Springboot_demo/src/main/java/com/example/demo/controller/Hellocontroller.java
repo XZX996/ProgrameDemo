@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +33,9 @@ public class Hellocontroller {
    helloMapper hd;
     @RequestMapping(value = "/getList")
     @ApiOperation(value = "查询数据", notes = "")
-    public JsonResult getList() throws Exception {
+    public JsonResult getList(@RequestParam Map map) throws Exception {
 
-        PageHelper.startPage(1,10);
+        PageHelper.startPage(Integer.parseInt(map.get("page").toString()),Integer.parseInt(map.get("limit").toString()));
         PageHelper page=new PageHelper();
         Properties p=new Properties();
         p.setProperty("offsetAsPageNum", "true");

@@ -10,9 +10,10 @@
     //每个页面的私有属性
     var home ={
         name:'sds',
+        layui:'',
         hello:function (arg) {
             //tableIns.reload();
-
+            test.add(1,2);
         },
         add:function (arg1,arg2) {
             alert("hello"+arg1+":"+arg2);
@@ -20,7 +21,7 @@
     };
 
     //单独引用layui需要的模块
-    layui.use(['form', 'layedit', 'laydate'], function() {
+    home.layui=layui.use(['form', 'layedit', 'laydate'], function() {
         var $ = layui.jquery;
         var form = layui.form
             , layer = layui.layer

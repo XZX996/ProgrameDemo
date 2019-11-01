@@ -39,6 +39,7 @@
     //每个页面私有属性
     var test ={
         name:'sds',
+        a:'',
         tableIns:null,
         hello:function (arg) {
             this.tableIns.reload({
@@ -51,12 +52,12 @@
             return query;
         },
         add:function (arg1,arg2) {
-            alert("hello"+arg1+":"+arg2);
+            alert("test.hello"+arg1+":"+arg2);
         },
     };
     layui.use(['form', 'layedit', 'laydate','table'], function() {
         var $ = layui.jquery;
-        var form = layui.form
+        var form = layui.form()
             , layer = layui.layer
             , layedit = layui.layedit
             , laydate = layui.laydate;

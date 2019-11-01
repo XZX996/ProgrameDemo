@@ -161,7 +161,6 @@ function render_table(table, elem, height, url, where, cols) {
                 DelToken("JSESSIONID");
                 window.location.href="/login.html";
             }
-            console.log(res.data.list);
             return {
                 "code":res.meta.code,
                 "msg": res.meta.message,

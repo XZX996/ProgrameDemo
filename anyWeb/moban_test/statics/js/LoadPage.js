@@ -1,3 +1,45 @@
+var cache=[];
+
+//获取页面缓存
+function getCache(url) {
+    var data=false;
+    $.each(cache, function (i, n) {
+        if (n.url == url){
+            data=n.data;
+            return false;
+        }
+    });
+    return data;
+}
+
+//设置页面缓存
+function setCache(url,data,callback) {
+    let i=existCache(url);
+    if (i>-1) {
+        console.log("替换值"+i);
+        cache[i].data=data;
+    }else {
+        cache.push({"url":url,"data":data});
+    }
+    if(typeof callback == 'function'){
+        callback();
+    }
+
+}
+
+function existCache(url) {
+    let exit=-1;
+    $.each(cache, function (i, n) {
+        if (n.url==url)
+        {
+            exit=i;
+            return false;
+        }
+    });
+    return exit;
+}
+
+
 //1. 路由规则
 const routes={
     '/':"App.html",
@@ -28,6 +70,7 @@ function load(url,callback){
         },
         complete: function(XMLHttpRequest, textStatus) {
             //隐藏正在查询图片
+            //removeLoading();
             setTimeout(removeLoading,100);
         },
         error:function(e){
@@ -35,6 +78,41 @@ function load(url,callback){
         }
     });
 }
+
+function load_cache(url,callback){
+
+    let cache=getCache(url);
+    if(cache!=false){
+        console.log("读取缓存");
+        callback(cache);
+    }else {
+        $.ajax({
+            type:"get",
+            url:routes[url], //需要获取的页面内容
+            async:false,
+            beforeSend: function(XMLHttpRequest) {
+                loading();
+                //Pause(this,100000);
+            },
+            success:function(data){
+                if(typeof callback == 'function'){
+                    callback(data);
+                }
+                // alert('s');
+            },
+            complete: function(XMLHttpRequest, textStatus) {
+                //隐藏正在查询图片
+                //removeLoading();
+                setTimeout(removeLoading,100);
+            },
+            error:function(e){
+                console.log(e);
+            }
+        });
+    }
+}
+
+
 
 function loading(){
     $('#loading').show();

@@ -55,7 +55,7 @@
                     <a class="" href="javascript:;">所有商品</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" class="site-demo-active" data-id="1" data-title="列表一" data-url="/home" data-type="tabAdd">列表一</a></dd>
-                        <dd><a href="javascript:;" class="site-demo-active" data-id="2" data-title="列表二" data-url="/TestLst" data-type="tabAdd">列表二</a></dd>
+                        <dd><a href="javascript:;" class="site-demo-active" data-id="2" data-title="列表二" data-url="/test" data-type="tabAdd">列表二</a></dd>
                         <dd><a href="javascript:;" class="site-demo-active" data-id="3" data-title="列表三" data-url="/formLst" data-type="tabAdd">列表三</a></dd>
                         <dd><a href="">超链接</a></dd>
                     </dl>
@@ -94,6 +94,8 @@
                         <img src="statics/images/gif/rainbow.gif" style="filter:chroma(color=#ffffff);position: relative;left : 50%; top : 50%; transform: translate(-50%,-50%);">
                     </div>
                 </div>
+               <!-- <div id="tab-content">
+                </div>-->
             </div>
 <!--
                 <div class="layui-tab-item layui-show" id="Content">内容1</div>
@@ -129,6 +131,7 @@
                         , content: html
                         , id: id
                     });
+                    //console.log(html);
                     history.replaceState(url, id, url);
                 });
             }
@@ -141,7 +144,7 @@
                 //切换到指定Tab项
                 element.tabChange('demo', id); //切换到：用户管理
                 //var tabtitle = $(".layui-tab-title li").fin;
-                history.replaceState(url, id, url);
+               //history.replaceState(url, id, url);
             }
             , tabDeleteAll: function (othis) {//删除所有
                 var tabtitle = $(".layui-tab-title li");
@@ -185,13 +188,46 @@
         element.tabChange('demo', layid);
         //监听切换
         element.on('tab(demo)', function (elem) {
+            let the=$(this);
+            let test_tm=test;
+            //获取上一个页面数据
+            let ca_data={c_scrpt:$("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
+                    +"']").next().html(),c_d:test_tm};
+            setCache(window.location.pathname,ca_data,function () {
+                //清除html
+                /*$("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
+                        +"']").remove();*/
+                $("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
+                    +"']").siblings().remove();
+                //更改地址栏
+                var tabs = $("a[class='site-demo-active' ][data-id='" + the + "'] ");
+                history.replaceState(tabs.attr("data-url"), tabs.attr("data-id"), tabs.attr("data-url"));
+                //导航菜单变化
+                $("a[class='site-demo-active' ]").parent("dd").removeClass("layui-this");
+                tabs.parent("dd").addClass("layui-this");
 
-            //更改地址栏
-            var tabs = $("a[class='site-demo-active' ][data-id='" + $(this).attr("lay-id") + "'] ");
-            history.replaceState(tabs.attr("data-url"), tabs.attr("data-id"), tabs.attr("data-url"));
-            //导航菜单变化
-            $("a[class='site-demo-active' ]").parent("dd").removeClass("layui-this");
-            tabs.parent("dd").addClass("layui-this");
+                //方法加载
+                getCache(window.location.pathname,function (d) {
+                    if(d!='false'){
+                        var script=$('<script>'+d.c_scrpt+'<\/script>');
+                        $('.layui-tab-item.layui-show').append(script);
+                        //$('.layui-tab-item.layui-show').append(d.c_htm);
+                        console.log(d.c_d);
+                        if(d.c_d!='undefined') {
+                            test = d.c_d;
+                        }else{
+                            alert(d.c_d);
+                        }
+                        //console.log(d);
+                    }
+                });
+            });
+           // alert(window.location.pathname);
+            //清除js
+            //Docache(the.attr("lay-id"),test_tm);
+            //$(".layui-tab-item.layui-show").find('script').remove();
+            //test={};
+            //console.log(cache);
 
 
             //console.log(this); //当前Tab标题所在的原始DOM元素
@@ -234,6 +270,8 @@
             }
         }
     });
+
+
 </script>
 </body>
 </html>

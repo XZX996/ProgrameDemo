@@ -1,7 +1,7 @@
 var cache=[];
 
 //获取页面缓存
-function getCache(url) {
+function getCache(url,callback) {
     var data=false;
     $.each(cache, function (i, n) {
         if (n.url == url){
@@ -9,16 +9,17 @@ function getCache(url) {
             return false;
         }
     });
-    return data;
+    callback(data);
 }
 
 //设置页面缓存
 function setCache(url,data,callback) {
+    //console.log(JSON.stringify(data));
     let i=existCache(url);
     if (i>-1) {
         console.log("替换值"+i);
         cache[i].data=data;
-    }else {
+    } else {
         cache.push({"url":url,"data":data});
     }
     if(typeof callback == 'function'){
@@ -44,7 +45,7 @@ function existCache(url) {
 const routes={
     '/':"App.html",
     '/home':"/view/common/home.html",
-    '/TestLst':"/view/list/TestLst.html",
+    '/test':"/view/list/TestLst.html",
     '/formLst':"/view/list/TestLst.html",
 };
 
@@ -81,11 +82,13 @@ function load(url,callback){
 
 function load_cache(url,callback){
 
-    let cache=getCache(url);
-    if(cache!=false){
+    var cadata=getCache(url);
+    if(cadata!=false){
         console.log("读取缓存");
-        callback(cache);
+        callback(cadata);
     }else {
+        callback(null);
+    }/*else {
         $.ajax({
             type:"get",
             url:routes[url], //需要获取的页面内容
@@ -108,8 +111,7 @@ function load_cache(url,callback){
             error:function(e){
                 console.log(e);
             }
-        });
-    }
+        });*/
 }
 
 

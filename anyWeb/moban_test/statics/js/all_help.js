@@ -7,7 +7,7 @@ layui.use('layer', function(){
 /**
  * 页面帮助区
  * **/
-$(function () {
+/*$(function () {
     //监听子页面点击事件，代理调用子页面方法，防止方法混用
     $(".layui-tab-content").click(function (e) {
         if( typeof $(e.target).attr("p_click") != 'undefined'){
@@ -15,7 +15,7 @@ $(function () {
             fn = eval(fn);
         }
     });
-});
+});*/
 //左侧导航栏放大缩小
 var isShow = true;  //定义一个标志位
 $('.kit-side-fold').click(function(){
@@ -55,6 +55,50 @@ $('.kit-side-fold').click(function(){
         isShow =true;
     }
 });
+
+//页面缓存
+function Docache(the,data){
+    //获取上一个页面数据
+    let ca_data={c_scrpt:$("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
+        +"']").next().html(),c_d:data};
+    setCache(window.location.pathname,ca_data,function () {
+    //清除html
+    /*$("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
+            +"']").remove();*/
+    $("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
+        +"']").siblings().remove();
+    //更改地址栏
+    var tabs = $("a[class='site-demo-active' ][data-id='" + the + "'] ");
+    history.replaceState(tabs.attr("data-url"), tabs.attr("data-id"), tabs.attr("data-url"));
+    //导航菜单变化
+    $("a[class='site-demo-active' ]").parent("dd").removeClass("layui-this");
+    tabs.parent("dd").addClass("layui-this");
+
+    //方法加载
+    getCache(window.location.pathname,function (d) {
+        if(d!='false'){
+            var script=$('<script>'+d.c_scrpt+'<\/script>');
+            $('.layui-tab-item.layui-show').append(script);
+            //$('.layui-tab-item.layui-show').append(d.c_htm);
+            if(d.c_d!='undefined') {
+                test = d.c_d;
+            }else{
+                alert(d.c_d);
+            }
+            //console.log(d);
+        }
+    });
+    /*load_cache(tabs.attr("data-url"),function (data) {
+       // if(data !=null){
+        var script=$('<script>'+data+'<\/script>');
+        $('.layui-tab-item.layui-show').append(script);
+        console.log(data);
+       //$(".layui-tab-content").find('script').html(data);
+      //  }
+    });*/
+
+});
+}
 
 /**
  * ajax处理区

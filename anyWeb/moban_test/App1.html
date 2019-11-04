@@ -55,7 +55,7 @@
                     <a class="" href="javascript:;">所有商品</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" class="site-demo-active" data-id="1" data-title="列表一" data-url="/home" data-type="tabAdd">列表一</a></dd>
-                        <dd><a href="javascript:;" class="site-demo-active" data-id="2" data-title="列表二" data-url="/TestLst" data-type="tabAdd">列表二</a></dd>
+                        <dd><a href="javascript:;" class="site-demo-active" data-id="2" data-title="列表二" data-url="/test" data-type="tabAdd">列表二</a></dd>
                         <dd><a href="javascript:;" class="site-demo-active" data-id="3" data-title="列表三" data-url="/formLst" data-type="tabAdd">列表三</a></dd>
                         <dd><a href="">超链接</a></dd>
                     </dl>
@@ -94,8 +94,6 @@
                         <img src="statics/images/gif/rainbow.gif" style="filter:chroma(color=#ffffff);position: relative;left : 50%; top : 50%; transform: translate(-50%,-50%);">
                     </div>
                 </div>
-                <div id="tab-content">
-                </div>
             </div>
 <!--
                 <div class="layui-tab-item layui-show" id="Content">内容1</div>
@@ -125,12 +123,12 @@
         var active = {
             tabAdd: function (url, id, name) {
                 //新增一个Tab项
-                load_cache(url, function (html) {
+                load(url, function (html) {
                     element.tabAdd('demo', {
                         title: name
+                        , content: html
                         , id: id
                     });
-                    $("#tab-content").html(html);
                     history.replaceState(url, id, url);
                 });
             }
@@ -188,20 +186,14 @@
         //监听切换
         element.on('tab(demo)', function (elem) {
 
-            //缓存当前页
-            setCache(history.state,$("#tab-content").html(),function () {
-                console.log(cache);
-                //更改地址栏
-                var tabs = $("a[class='site-demo-active' ][data-id='" + $(this).attr("lay-id") + "'] ");
-                history.replaceState(tabs.attr("data-url"), tabs.attr("data-id"), tabs.attr("data-url"));
-                //更改内容
-                load_cache(tabs.attr("data-url"), function (html) {
-                    $("#tab-content").html(html);
-                });
-                //导航菜单变化
-                $("a[class='site-demo-active' ]").parent("dd").removeClass("layui-this");
-                tabs.parent("dd").addClass("layui-this");
-            });
+            //更改地址栏
+            var tabs = $("a[class='site-demo-active' ][data-id='" + $(this).attr("lay-id") + "'] ");
+            history.replaceState(tabs.attr("data-url"), tabs.attr("data-id"), tabs.attr("data-url"));
+            //导航菜单变化
+            $("a[class='site-demo-active' ]").parent("dd").removeClass("layui-this");
+            tabs.parent("dd").addClass("layui-this");
+
+
             //console.log(this); //当前Tab标题所在的原始DOM元素
             //console.log(elem.index); //得到当前Tab的所在下标
             //console.log(elem.elem); //得到当前的Tab大容器

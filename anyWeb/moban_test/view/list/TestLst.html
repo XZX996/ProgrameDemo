@@ -31,17 +31,17 @@
             </div>
         </div>
     </div>
-    <button type="button" class="layui-btn layui-btn-danger " p_click="hello('test,info')">警告按钮</button>
+    <button type="button" class="layui-btn layui-btn-danger " onclick="test.hello1('test,info')">警告按钮</button>
 </form>
 <table lay-filter="tinfo" id="infoTable1"></table>
 </div>
 <script>
     //每个页面私有属性
     var test ={
-        name:'sds',
-        a:'',
-        tableIns:null,
-        hello:function (arg) {
+        name:'test',
+        la:{},
+        tableIns:{},
+        hello1:function (arg) {
             this.tableIns.reload({
                 where:this.where
                 , page: {curr: 1}
@@ -55,9 +55,9 @@
             alert("test.hello"+arg1+":"+arg2);
         },
     };
-    layui.use(['form', 'layedit', 'laydate','table'], function() {
+    test.la=layui.use(['form', 'layedit', 'laydate','table'], function() {
         var $ = layui.jquery;
-        var form = layui.form()
+        var form = layui.form
             , layer = layui.layer
             , layedit = layui.layedit
             , laydate = layui.laydate;

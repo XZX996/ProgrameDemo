@@ -1,15 +1,15 @@
 <!--每个子页面有个class和p-id来区分-->
 <div class="Xpage" p-id="home">
 <p>我是来自模板1</p>
-    <button type="button" class="layui-btn layui-btn-danger" p_click="hello(11)">调用方法</button>
-    <button type="button" class="layui-btn layui-btn-danger" p_click="add(11,12)">私有方法</button>
+    <button type="button" class="layui-btn layui-btn-danger" onclick="test.hello1(11)">调用方法</button>
+    <button type="button" class="layui-btn layui-btn-danger" onclick="test.add(11,12)">私有方法</button>
     <input type="text" name="date" class="layui-input date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
 </div>
 
 <script>
     //每个页面的私有属性
-    var home ={
-        name:'sds',
+    var test ={
+        name:'home',
         layui:'',
         hello:function (arg) {
             //tableIns.reload();
@@ -21,7 +21,7 @@
     };
 
     //单独引用layui需要的模块
-    home.layui=layui.use(['form', 'layedit', 'laydate'], function() {
+    test.layui=layui.use(['form', 'layedit', 'laydate'], function() {
         var $ = layui.jquery;
         var form = layui.form
             , layer = layui.layer

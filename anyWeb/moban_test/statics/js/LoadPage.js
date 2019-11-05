@@ -16,10 +16,10 @@ function getCache(url,callback) {
 function setCache(url,data,callback) {
     //console.log(JSON.stringify(data));
     let i=existCache(url);
-    if (i>-1) {
+    if (i<0)/* {
         console.log("替换值"+i);
         cache[i].data=data;
-    } else {
+    } else*/ {
         cache.push({"url":url,"data":data});
     }
     if(typeof callback == 'function'){

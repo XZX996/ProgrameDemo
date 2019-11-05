@@ -36,13 +36,15 @@ public class MySessionManager extends DefaultWebSessionManager {
         String stardonToken = WebUtils.toHttp(request).getHeader(TOKEN_NAME);
 
         //请求头中没有尝试在 url 中获取一次
-        if (stardonToken == null) {
+        if (stardonToken.equals("null")) {
             stardonToken = getUriPathSegmentParamValue(request, TOKEN_NAME);
         }
         if (!StringUtils.isEmpty(stardonToken)) {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, TOKEN_NAME);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
+            //不会把sessionid放在URL后
+            request.setAttribute(ShiroHttpServletRequest.SESSION_ID_URL_REWRITING_ENABLED, Boolean.FALSE);
             return stardonToken;
         } else {
             //否则按默认规则从cookie取sessionId

@@ -124,6 +124,8 @@
         //触发事件
         var active = {
             tabAdd: function (url, id, name) {
+                //清空test；
+                test={};
                 //新增一个Tab项
                 load(url, function (html) {
                     element.tabAdd('demo', {
@@ -132,7 +134,7 @@
                         , id: id
                     });
                     //console.log(html);
-                    history.replaceState(url, id, url);
+                    //history.replaceState(url, id, url);
                 });
             }
             , tabDelete: function (othis) {
@@ -144,7 +146,7 @@
                 //切换到指定Tab项
                 element.tabChange('demo', id); //切换到：用户管理
                 //var tabtitle = $(".layui-tab-title li").fin;
-               //history.replaceState(url, id, url);
+                history.replaceState(url, id, url);
             }
             , tabDeleteAll: function (othis) {//删除所有
                 var tabtitle = $(".layui-tab-title li");
@@ -159,7 +161,7 @@
         //监听
         $('.site-demo-active').on('click', function () {
             var dataid = $(this);
-            type = dataid.data('type');
+            //type = dataid.data('type');
             //active[type] ? active[type].call(this, othis) : '';
             //这时会判断右侧.layui-tab-title属性下的有lay-id属性的li的数目，即已经打开的tab项数目
             if ($(".layui-tab-title li[lay-id]").length <= 0) {
@@ -184,42 +186,36 @@
         });
 
         //Hash地址的定位
-        var layid = location.hash.replace(/^#demo=/, '');
-        element.tabChange('demo', layid);
+        //var layid = location.hash.replace(/^#demo=/, '');
+        //element.tabChange('demo', layid);
         //监听切换
         element.on('tab(demo)', function (elem) {
-            let the=$(this);
-            let test_tm=test;
+            var the=$(this).attr('lay-id');
+            var test_tm=test;
+            var pa=window.location.pathname;
+            //更改地址栏
+            var tabs = $("a[class='site-demo-active' ][data-id='" + the + "'] ");
+            history.replaceState(tabs.attr("data-url"), tabs.attr("data-id"), tabs.attr("data-url"));
+            //导航菜单变化
+            $("a[class='site-demo-active' ]").parent("dd").removeClass("layui-this");
+            tabs.parent("dd").addClass("layui-this");
+            //alert(pa+":"+window.location.pathname);
             //获取上一个页面数据
-            let ca_data={c_scrpt:$("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
-                    +"']").next().html(),c_d:test_tm};
-            setCache(window.location.pathname,ca_data,function () {
-                //清除html
-                /*$("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
-                        +"']").remove();*/
-                $("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
-                    +"']").siblings().remove();
-                //更改地址栏
-                var tabs = $("a[class='site-demo-active' ][data-id='" + the + "'] ");
-                history.replaceState(tabs.attr("data-url"), tabs.attr("data-id"), tabs.attr("data-url"));
-                //导航菜单变化
-                $("a[class='site-demo-active' ]").parent("dd").removeClass("layui-this");
-                tabs.parent("dd").addClass("layui-this");
-
+            /*let ca_data={c_scrpt:$("div[class='Xpage'][p-id='"+window.location.pathname.substring(1)
+                    +"']").next().html(),c_d:test_tm};*/
+            setCache(pa,test_tm,function () {
                 //方法加载
+
                 getCache(window.location.pathname,function (d) {
-                    if(d!='false'){
-                        var script=$('<script>'+d.c_scrpt+'<\/script>');
+                    if(d!=false && d!='undefined'){
+                        /*var script=$('<script>'+d.c_scrpt+'<\/script>');
                         $('.layui-tab-item.layui-show').append(script);
                         //$('.layui-tab-item.layui-show').append(d.c_htm);
-                        console.log(d.c_d);
-                        if(d.c_d!='undefined') {
-                            test = d.c_d;
+                        console.log(d.c_d);*/
+                            test = d;
                         }else{
-                            alert(d.c_d);
+                            console.log(d);
                         }
-                        //console.log(d);
-                    }
                 });
             });
            // alert(window.location.pathname);

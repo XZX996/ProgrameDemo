@@ -1,0 +1,17 @@
+<div id="page2">
+    <input v-model="message"/>
+    <p>{{ message }}</p>
+    <button v-on:click="show">使劲点我</button>
+</div>
+
+<script>
+    new Vue({
+        el: '#page2',
+        data: {
+            message: 'Hello world'
+        },
+        methods:{
+            show:function(){alert("run...")}
+        }
+    })
+</script>

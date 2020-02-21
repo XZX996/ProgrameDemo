@@ -11,30 +11,31 @@ namespace Core_api.Helptool
     public class RefInfo<T>
     {
         #region 返回状态类
-        public class Meta {
-            public  int code { get; set; }
-            public  string messge { get; set; }
-        }
+        //public class Meta {
+           
+        //}
         #endregion
-        public  Meta meta;
-        private List<T> data;
+       // public  Meta meta;
+        public int code { get; set; }
+        public T data { get; set; }
+        public string messge { get; set; }
 
         public RefInfo()
         {
-            meta = new Meta();
+            //meta = new Meta();
         }
 
         public RefInfo<T> success()
         {
-            meta.code = (int)Emeta.SUCCESS;
-            meta.messge= Emeta.SUCCESS.GetRemark();
+            code = (int)Emeta.SUCCESS;
+            messge= Emeta.SUCCESS.GetRemark();
             return this;
         }
-        public RefInfo<T> success(List<T> data)
+        public RefInfo<T> success(T data)
         {
            
-            meta.code = (int)Emeta.SUCCESS;
-            meta.messge = Emeta.SUCCESS.GetRemark();
+            this.code = (int)Emeta.SUCCESS;
+            this.messge = "";// Emeta.SUCCESS.GetRemark();
            // EnumOprate.GetRemark(Meta.SUCCESS);
             this.data = data;
             return this;
@@ -42,25 +43,25 @@ namespace Core_api.Helptool
 
         public RefInfo<T> failure()
         {
-            meta.code = (int)Emeta.Err400;
-            meta.messge = Emeta.Err400.GetRemark();
+            code = (int)Emeta.Err400;
+            messge = Emeta.Err400.GetRemark();
             return this;
         }
 
         public RefInfo<T> failure(Emeta emeta)
         {
-            meta.code = (int)emeta;
-            meta.messge = emeta.GetRemark();
+            code = (int)emeta;
+            messge = emeta.GetRemark();
             return this;
         }
 
-        public RefInfo<T> failure(Emeta emeta, List<T> data)
-        {
-            meta.code = (int)emeta;
-            meta.messge = emeta.GetRemark();
-            this.data = data;
-            return this;
-        }
+        //public RefInfo<T> failure(Emeta emeta, List<T> data)
+        //{
+        //    code = (int)emeta;
+        //    messge = emeta.GetRemark();
+        //    data = data;
+        //    return this;
+        //}
 
         /// <summary>
         /// 返回状态码
@@ -71,7 +72,7 @@ namespace Core_api.Helptool
              * 请求成功
              */
             [Remark("请求成功")]
-            SUCCESS =200,
+            SUCCESS =0,
 
             /**
                 * 请求错误

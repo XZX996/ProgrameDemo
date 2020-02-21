@@ -1,9 +1,11 @@
 package com.example.demo.Dao;
 
 import com.example.demo.pojo.MsgLog;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface MsgLogMapper {
 
     void insert(MsgLog msgLog);

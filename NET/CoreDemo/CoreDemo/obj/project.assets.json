@@ -13309,11 +13309,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ProgrameDemo\\NET\\CoreDemo\\CoreDemo\\CoreDemo.csproj",
+      "projectUniqueName": "D:\\ProgrameDemo\\ProgrameDemo\\NET\\CoreDemo\\CoreDemo\\CoreDemo.csproj",
       "projectName": "CoreDemo",
-      "projectPath": "D:\\ProgrameDemo\\NET\\CoreDemo\\CoreDemo\\CoreDemo.csproj",
+      "projectPath": "D:\\ProgrameDemo\\ProgrameDemo\\NET\\CoreDemo\\CoreDemo\\CoreDemo.csproj",
       "packagesPath": "C:\\Users\\Hero\\.nuget\\packages\\",
-      "outputPath": "D:\\ProgrameDemo\\NET\\CoreDemo\\CoreDemo\\obj\\",
+      "outputPath": "D:\\ProgrameDemo\\ProgrameDemo\\NET\\CoreDemo\\CoreDemo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

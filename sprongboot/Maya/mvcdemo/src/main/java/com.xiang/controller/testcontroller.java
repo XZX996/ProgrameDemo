@@ -27,7 +27,7 @@ public class testcontroller{
     }
    @RequestMapping("/home")
    public ModelAndView test(){
-       ModelAndView mav = new ModelAndView("home");
+       ModelAndView mav = new ModelAndView("/home/home");
        mav.addObject("message", "Hello Spring MVC");
        return mav;
    }

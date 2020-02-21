@@ -16,7 +16,7 @@ import javax.servlet.MultipartConfigElement;
 
 @ComponentScan(basePackages = {"com.example.demo.*"})
 @MapperScan(basePackages = {"com.example.demo.Dao"})
-/*开启缓存*/
+/*开启调度*/
 @EnableScheduling
 @EnableCaching
 @EnableSwagger2

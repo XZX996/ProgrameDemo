@@ -8,11 +8,15 @@ import org.apache.commons.beanutils.BeanUtils;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.MessageDigest;
 
 public class Client {
 
     public static void main(String[] args) throws Exception {
-
+     /*   MessageDigest md = MessageDigest.getInstance("MD5");
         //bean的描述器
         BeanInfo bin=Introspector.getBeanInfo(gaiLun.class,Object.class);
         PropertyDescriptor[] pds=bin.getPropertyDescriptors();
@@ -25,10 +29,10 @@ public class Client {
         h1.setName("马超");
         hero h2=new hero();
         BeanUtils.copyProperties(h2,h1);
-        System.out.println(h2);
-        /*try {
+        System.out.println(h2);*/
+        try {
 
-            Socket s = new Socket("127.0.0.1", 8888);
+            Socket s = new Socket("127.0.0.1", 8791);
 
             OutputStream os = s.getOutputStream();
             DataOutputStream dos = new DataOutputStream(os);
@@ -44,6 +48,6 @@ public class Client {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }*/
+        }
     }
 }

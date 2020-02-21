@@ -19,6 +19,7 @@ namespace Core_api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:9998")
                 .UseStartup<Startup>();
     }
 }

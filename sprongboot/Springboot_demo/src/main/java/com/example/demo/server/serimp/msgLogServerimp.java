@@ -1,5 +1,9 @@
 package com.example.demo.server.serimp;
 
+import com.example.demo.Dao.MsgLogMapper;
+import com.example.demo.pojo.MsgLog;
+import com.example.demo.server.msgLogServer;
+import com.example.demo.util.JodaTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class myLogServerimp implements MsgLogService {
+public class msgLogServerimp implements msgLogServer {
 
     @Autowired
     private MsgLogMapper msgLogMapper;

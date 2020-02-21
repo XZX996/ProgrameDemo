@@ -15,18 +15,41 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace Core_api
 {
+    // 1.构造函数 Startup  Core的核心是依赖注入 所以要有构造函数进行注入
+    // 2.承载注入实现的对象 IConfiguration
+    // 3.添加服务的方法 ConfigureServices 比Configure 先调用
+    // 4.配置HTTP请求管道的方法 Configure
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        //环境信息
+        private readonly IHostingEnvironment _env;
+        //获取配置信息使用 GetSection
+        private readonly IConfiguration _config;
+        //Log记录接口
+        private readonly ILoggerFactory _loggerFactory;
+        public Startup(IHostingEnvironment env,IConfiguration config,ILoggerFactory loggerFactory)
         {
-            Configuration = configuration;
+            _env = env;
+            _config = config;
+            _loggerFactory = loggerFactory;
         }
-
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //跨域配置
+            string[] urls = _config.GetSection("AllowCors:AllowAllOrigin").Value.Split(',');
+            // 设置允许的请求来源地址、头信息、请求类型,cookie
+            //对于cookie，AJAX中配置xhrFields:{withCredentials: true},
+            services.AddCors(Options=>
+            {
+                Options.AddPolicy("AllowAllOrigin", builder => {
+                    builder.WithOrigins(urls)
+                                 .AllowAnyHeader()
+                                 .AllowAnyMethod()
+                                 .AllowCredentials()
+                                 .AllowAnyOrigin();  //允许所有来源主机
+                });             
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             #region Swagger
             services.AddSwaggerGen(_ =>
@@ -44,6 +67,7 @@ namespace Core_api
                 var xmlPath = Path.Combine(basePath, "Core_api.xml");
                 _.IncludeXmlComments(xmlPath);
             });
+
             //D:\ProgrameDemo\NET\Core_api\Core_api\Core_api.xml
             
             #endregion
@@ -61,6 +85,14 @@ namespace Core_api
                 app.UseHsts();
             }
 
+            //app.UseCors(options => options
+            //                      .WithOrigins("http://localhost:56594")
+            //                      .AllowAnyHeader()
+            //                      .AllowAnyMethod()
+            //                      .AllowCredentials()
+            //    );
+            app.UseCors("AllowAllOrigin");
+            //启用Mvc服务
             app.UseHttpsRedirection();
             app.UseMvc();
             #region Swagger
@@ -69,6 +101,13 @@ namespace Core_api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
             });
+            app.UseDefaultFiles();
+            //这个可以添加默认页
+            DefaultFilesOptions options = new DefaultFilesOptions();
+            //这里的清理可以不使用
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("error.html");
+            app.UseDefaultFiles(options);
             #endregion
         }
     }

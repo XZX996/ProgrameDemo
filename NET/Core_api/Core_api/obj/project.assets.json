@@ -2668,7 +2668,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "Newtonsoft.Json/11.0.2": {
+      "Newtonsoft.Json/12.0.3": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
@@ -7445,10 +7445,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "Newtonsoft.Json/11.0.2": {
-      "sha512": "znZGbws7E4BA9jxNZ7FuiIRI3C9hrgatVQSTKhIYZYNOud4M5VfGlTYi6RdYO5sQrebFuF/g9UEV3hOxDMXF6Q==",
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "aTRmXwR5xYu+mWxE8r8W1DWnL02SeV8LwdQMsLwTWP8OZgrCCyTqvOAe5hRb1VNQYXjln7qr0PKpSyO/pcc19Q==",
       "type": "package",
-      "path": "newtonsoft.json/11.0.2",
+      "path": "newtonsoft.json/12.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7471,8 +7471,9 @@
         "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "newtonsoft.json.11.0.2.nupkg.sha512",
-        "newtonsoft.json.nuspec"
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
       ]
     },
     "Newtonsoft.Json.Bson/1.0.1": {
@@ -12556,6 +12557,7 @@
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
+      "Newtonsoft.Json >= 12.0.3",
       "Swashbuckle.AspNetCore >= 4.0.1",
       "sqlSugarCore >= 5.0.0.7"
     ]
@@ -12567,11 +12569,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ProgrameDemo\\NET\\Core_api\\Core_api\\Core_api.csproj",
+      "projectUniqueName": "D:\\ProgrameDemo\\ProgrameDemo\\NET\\Core_api\\Core_api\\Core_api.csproj",
       "projectName": "Core_api",
-      "projectPath": "D:\\ProgrameDemo\\NET\\Core_api\\Core_api\\Core_api.csproj",
+      "projectPath": "D:\\ProgrameDemo\\ProgrameDemo\\NET\\Core_api\\Core_api\\Core_api.csproj",
       "packagesPath": "C:\\Users\\Hero\\.nuget\\packages\\",
-      "outputPath": "D:\\ProgrameDemo\\NET\\Core_api\\Core_api\\obj\\",
+      "outputPath": "D:\\ProgrameDemo\\ProgrameDemo\\NET\\Core_api\\Core_api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12616,6 +12618,10 @@
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[12.0.3, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

@@ -1,6 +1,7 @@
-package com.example.demo.common;
+package com.example.demo.config;
 
-import com.example.demo.server.myLogServer;
+import com.example.demo.common.Constant;
+import com.example.demo.server.msgLogServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -13,16 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 @Slf4j
 public class RabbitMqConfig {
 
     @Autowired
     private CachingConnectionFactory connectionFactory;
     @Autowired
-    private myLogServer msgLogService;
+    private msgLogServer msgLogService;
 
-    @Bean
+   // @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(converter());

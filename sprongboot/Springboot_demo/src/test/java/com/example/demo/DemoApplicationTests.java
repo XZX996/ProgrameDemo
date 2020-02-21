@@ -1,6 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.pojo.EnumTest;
 import com.example.demo.server.RedisService;
+import com.example.demo.server.rendMailserver;
+import com.example.demo.util.ConfigUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +25,17 @@ import java.util.concurrent.TimeUnit;
 public class DemoApplicationTests {
 
 	@Autowired
+	private rendMailserver rend;
+	/*@Autowired
 	private RedisTemplate redisTemplate;
 	@Autowired
 	private StringRedisTemplate st;
 	@Resource
     private RedisService ser;
 	@Test
+	public  void gettest(){
+		System.out.println(EnumTest.getName(1));
+	}
 	public void contextLoads() {
 	    redisTemplate.opsForValue().set("sasd","sda");
 		System.out.println(redisTemplate.opsForValue().get("sasd"));
@@ -58,7 +66,16 @@ public class DemoApplicationTests {
 	public String getValue(String key){
 		ValueOperations<String, String> ops = this.st.opsForValue();
 		return ops.get(key);
+	}*/
+	@Test
+	public void send() {
+		ConfigUtil.updateProperties("sendTo","XZZZ66D@163.COM");
+		String send= ConfigUtil.getValue("sendTo");
+		rend.sendSimpleEmail(send);
 	}
 
+	@Test
+	public void sendAttachment() {
+	}
 
 }

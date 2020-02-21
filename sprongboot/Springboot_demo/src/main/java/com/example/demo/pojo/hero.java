@@ -1,5 +1,10 @@
 package com.example.demo.pojo;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
+
+@Component
 public class hero {
 
     private int id;

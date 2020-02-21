@@ -1,12 +1,31 @@
 package com.company;
 
+import javax.lang.model.element.VariableElement;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
+            int[] myArray = {1, 2, 3, 4, 5};
+            ChangeIt.doIt(myArray);
+            for (int i = 0; i < myArray.length; i++)
+            {
+                System.out.print(myArray[i] + " ");
+            }
+            int a=20;
+            ChangeIt.one(a);
+            System.out.println(a);
+            ArrayList<Integer> str=new ArrayList<Integer>(Arrays.asList(12,3231,31));
+           /* str.forEach(e->{
+                System.out.println(e);
+             });*/
+           str.stream().filter(e->(e%2==0)).toArray();
+           System.out.println(str);
 	// write your code here
  /*       final hero gareen = new hero();
         gareen.name = "盖伦";
@@ -84,3 +103,18 @@ public class Main {
         System.out.println(sb.toString());
     }
 }
+class ChangeIt
+{
+    static void doIt( int[] z )
+    {
+        int[] A = z;
+        A[0] = 99;
+    }
+
+    static void  one(int a){
+        a=10;
+
+    }
+
+}
+

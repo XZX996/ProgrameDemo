@@ -1,6 +1,7 @@
 package com.example.demo.server.serimp;
 
 import com.example.demo.Dao.MsgLogMapper;
+import com.example.demo.Mq.MessageHelper;
 import com.example.demo.common.ServerResponse;
 import com.example.demo.config.RabbitMqConfig;
 import com.example.demo.pojo.JsonResult;
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestServerImpl implements TestServer {
+public class TestServerimp implements TestServer {
 
     @Autowired
     private MsgLogMapper msgLogMapper;
@@ -37,6 +38,7 @@ public class TestServerImpl implements TestServer {
         String msgId = RandomUtil.UUID32();
         mail.setMsgId(msgId);
 
+        String ss=new String();
         MsgLog msgLog = new MsgLog(msgId, mail, RabbitMqConfig.MAIL_EXCHANGE_NAME, RabbitMqConfig.MAIL_ROUTING_KEY_NAME);
         msgLogMapper.insert(msgLog);// 消息入库
 

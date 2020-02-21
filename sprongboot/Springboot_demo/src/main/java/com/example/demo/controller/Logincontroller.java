@@ -142,6 +142,7 @@ public class Logincontroller {
         if ("1".equals(role)) {
             return new JsonResult().success(JSESSIONID);
         }
+
         return new JsonResult().failure(JsonResult.Meta.Err3,"权限错误！");
     }
 

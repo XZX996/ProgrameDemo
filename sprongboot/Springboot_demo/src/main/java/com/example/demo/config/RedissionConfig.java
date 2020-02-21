@@ -1,4 +1,5 @@
-package com.example.demo.common;
+/*
+package com.example.demo.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -27,3 +28,4 @@ public class RedissionConfig {
     }
 
 }
+*/

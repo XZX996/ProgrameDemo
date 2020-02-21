@@ -34,6 +34,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!--快捷生成-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.20</version>
+			<scope>provided</scope>
+		</dependency>
 		<!--servlet依赖-->
 		<!--<dependency>
 			<groupId>javax.servlet</groupId>
@@ -109,7 +116,13 @@
 			<groupId>jedis</groupId>
 			<artifactId>jedis</artifactId>
 			<version>2.9.0</version>
-			<scope>test</scope>
+			<scope>compile</scope>
+		</dependency>
+		<!--redisson分布式工具-->
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>3.6.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -217,7 +230,41 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
         </dependency>
-    </dependencies>
+		<!--邮箱-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!-- commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+		<!--joda time-->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10</version>
+		</dependency>
+		<!--<dependency>
+			<groupId>jedis</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+			<scope>compile</scope>
+		</dependency>-->
+		<dependency>
+			<groupId>org.yeauty</groupId>
+			<artifactId>netty-websocket-spring-boot-starter</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+
+	</dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

@@ -5,7 +5,7 @@ import com.example.demo.pojo.MsgLog;
 import java.util.Date;
 import java.util.List;
 
-public interface myLogServer {
+public interface msgLogServer {
 
     void updateStatus(String msgId, Integer status);
 

@@ -1,6 +1,6 @@
 <template>
     <div class="loglist">
-     <h2>loglist </h2>
+     <h2>转换日志</h2>
      <el-table
      :data="tableData"
      height="250"
@@ -8,17 +8,51 @@
      style="width: 100%">
      <el-table-column
        prop="date"
-       label="日期"
+       label="批次ID"
        width="180">
      </el-table-column>
      <el-table-column
        prop="name"
-       label="姓名"
+       label="通道ID"
+       width="180">
+     </el-table-column>
+     <el-table-column
+       prop="name"
+       label="转换名称"
+       width="180">
+     </el-table-column>
+     <el-table-column
+       prop="name"
+       label="状态"
        width="180">
      </el-table-column>
      <el-table-column
        prop="address"
-       label="地址">
+       label="开始时间">
+     </el-table-column>
+     <el-table-column
+       prop="address"
+       label="结束时间">
+     </el-table-column>
+     <el-table-column
+       prop="address"
+       label="读">
+     </el-table-column>
+     <el-table-column
+       prop="address"
+       label="写">
+     </el-table-column>
+     <el-table-column
+       prop="address"
+       label="更新">
+     </el-table-column>
+     <el-table-column
+       prop="address"      
+       label="输入">
+     </el-table-column>
+     <el-table-column
+       prop="address"
+       label="输出">
      </el-table-column>
    </el-table>
     </div>

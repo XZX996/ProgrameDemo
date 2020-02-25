@@ -1,6 +1,7 @@
 <template>    
     <div class="loglist">
-     <h2>转换日志</h2>
+      <el-main>
+     <h2>JOB日志</h2>
      <div ref="element" class="align">
       <el-form :inline="true"  labelPosition="right" labelWidth="100px"  >
           <!-- <el-form-item label="机构名称：">
@@ -76,6 +77,7 @@
     <el-row>
       <el-pagination :current-page.sync:="params.pageNum" background @current-change="handlePageChange" :page-size="params.pageSize" :total="total" ></el-pagination>
     </el-row>
+  </el-main>
     </div>
 </template>
   
@@ -105,7 +107,7 @@
 
       },
       getList(){
-        this.$http.post('/log/getList').then((res) => {
+        this.$http.get('/log/getList').then((res) => {
             this.tableData=res.data.data.records;
             this.total=res.data.data.total;
             console.log(res.data.data);

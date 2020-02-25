@@ -18,7 +18,7 @@
             <span>{{menu.name}}</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item :index="item.routeName" v-for="item in menu.menuItem" :key="item.index" >{{item.name}}</el-menu-item>
+            <el-menu-item :index="`${index}`" v-for="(item,index) in menu.menuItem" :key="index">{{item.name}}</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -41,28 +41,27 @@
           menuList: [
                 {
                   icont: 'el-icon-s-tools',
+                  url: 'trans',
                   name: '日志管理',
                   menuItem: [
                     {
-                      title: 'trans日志',
-                      routeName: 'trans',
-                      name: 'translog'
+                      url: 'trans',
+                      name: 'trans日志',
                     },
                     {
-                      title: 'job日志',
-                      routeName: 'demo',
-                      name: 'joblog'
+                      url: 'job',
+                      name: 'job日志',
                     }
                   ]
                 },
                 {
+                  url: 'job',
                   icont: 'el-icon-s-order',
                   name: '实体管理',
                   menuItem: [
                     {
-                      title: 'trans管理',
-                      routeName: 'orderList',
-                      name: 'Jobs管理'
+                      url: 'trans',
+                      name: 'trans管理',
                     }
                   ]
                 }
@@ -77,11 +76,12 @@
           console.log(key, keyPath);
         },
         addtab(key, keyPath){
+          //this.$bus.emit("navPath",{})          
+          //this.$router.push(key);
+          var s_inex=parseInt(keyPath[1]);
           console.log(keyPath);
-          //this.$bus.emit("navPath",keyPath)
-          
-          this.$router.push(key);
-          //console.log(this.$router);
+          console.log(this.menuList[key]);
+          console.log(this.menuList[key].menuItem[0]);
           //this.$router.push({path:'key'});
         }
       },

@@ -28,7 +28,6 @@ export default {
         editableTabs: [{
             title: 'Tab 1',
             name: '1',
-            content: 'Tab 1 content',
         }],
         tabIndex: 1,
         navPath:'',
@@ -38,9 +37,8 @@ export default {
         addTab(targetName) {
         let newTabName = ++this.tabIndex + '';
         this.editableTabs.push({
-            title: 'New Tab',
+            title: targetName,
             name: newTabName,
-            content: 'New Tab content'
         });
         this.editableTabsValue = newTabName;
         },
@@ -69,8 +67,9 @@ export default {
     },
     mounted:function() {
         this.$bus.on('navPath',(name,val) =>{//处理传过来的值
-        console.log(name)
-        var titname=name;  
+        console.log(name[1]);
+        this.addTab(name[1]);
+       // var titname=name;  
     });
    },
 }

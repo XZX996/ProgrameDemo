@@ -29,6 +29,11 @@ Vue.use(ElementUI);
 import VueBus from 'vue-bus';
  
 Vue.use(VueBus);
+
+//axios
+import Axios  from './utils/http';
+Vue.prototype.$http=Axios ;
+
 /* eslint-disable no-new */
 new Vue({
   el: "#app",

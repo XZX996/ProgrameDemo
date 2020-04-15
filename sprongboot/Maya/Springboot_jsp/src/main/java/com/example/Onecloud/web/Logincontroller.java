@@ -41,7 +41,7 @@ public class Logincontroller {
     }
     @GetMapping("/login")
     public String login() throws Exception {
-        return "login";
+        return "hello";
     }
     /**
      * 登陆
@@ -49,9 +49,9 @@ public class Logincontroller {
      * @param username 用户名
      * @param password 密码
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    //@RequestMapping(value = "/login", method = RequestMethod.POST)
     public JsonResult login(String username, String password) {
-        // 从SecurityUtils里边创建一个 subject
+        /*// 从SecurityUtils里边创建一个 subject
         Subject subject = SecurityUtils.getSubject();
         // 在认证提交前准备 token（令牌）
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -64,7 +64,8 @@ public class Logincontroller {
         }
         if ("1".equals(role)) {
             return new JsonResult().success("欢迎来到管理员页面");
-        }
-        return new JsonResult().failure(JsonResult.Meta.Err3,"权限错误！");
+        }*/
+        return new JsonResult().success("欢迎来到管理员页面");
+//        return new JsonResult().success(JsonResult.Meta.Err3,"权限错误！");
     }
 }

@@ -1,21 +1,79 @@
 package com.company;
 
+import javax.swing.tree.TreeNode;
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InterMain {
+    static Integer sub;
+    static Integer re;
+
+    static String sub1;
+    static String sub2;
+    static String re1;
+    static int[] a={1,2,3,4,5,6,7,8,9,11,99,13,14,15,16,17,12,19,10,18};
+
+    private static Integer FF(int n){
+        if(n<=1){
+            return 1;
+        }else{
+            sub=FF(n-1);
+            re=sub*n;
+            return re;
+        }
+    }
+
+    private static int bser(int valu){
+        //Arrays.binarySearch()
+        HashMap
+        int low=0;
+        int mid=0;
+        int hign=a.length-1;
+        while (low<=hign){
+            mid=(low+hign)>>>1;
+            System.out.println("strat:"+low+",mid:"+mid+",end:"+hign+",a[mid]="+a[mid]+",valu="+valu);
+            if(a[mid]==valu){
+                System.out.println(valu);
+                return mid;
+            }else if(a[mid]<valu){
+                low=mid+1;
+            }else {
+                hign=mid-1;
+            }
+
+        }
+        System.out.println("strat:"+low+",mid:"+mid+",end:"+hign+",a[mid]="+a[mid]+",valu="+valu);
+        return low;
+    }
+
+    private static String FF1(String ss){
+        if(ss.equals("")){
+            return "";
+        }else{
+            sub2=FF1(ss.substring(1));
+            re1=sub2+ss.substring(0,1);
+            return re1;
+        }
+    }
 
     public static void main(String[] args) throws UnknownHostException, InterruptedException {
+        System.out.println(1>>2);
+
+        bser(12);
+        FF1("abcd");
+        FF(6);
+        System.out.println(re1);
+
         InetAddress host = InetAddress.getLocalHost();
         String ip = host.getHostAddress();
         String ipRange = ip.substring(0, ip.lastIndexOf('.'));

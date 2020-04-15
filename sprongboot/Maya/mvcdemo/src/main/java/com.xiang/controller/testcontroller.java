@@ -24,7 +24,9 @@ public class testcontroller{
     @RequestMapping("/getList")
     public JsonResult getList(@RequestParam Map map){
         return new JsonResult().success("sussd");
+
     }
+
    @RequestMapping("/home")
    public ModelAndView test(){
        ModelAndView mav = new ModelAndView("/home/home");

@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -26,6 +29,22 @@ public class Main {
              });*/
            str.stream().filter(e->(e%2==0)).toArray();
            System.out.println(str);
+
+            List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd","", "jkl");
+    // 获取空字符串的数量
+            long count = strings.parallelStream().filter(string -> string.isEmpty()).count();
+            System.out.println(count);
+        // 求和，sumValue = 10, 有起始值
+        int sumValue = Stream.of(1, 2, 3, 4).reduce(0, Integer::sum);
+        System.out.println(sumValue);
+        // 求和，sumValue = 10, 无起始值
+         sumValue = Stream.of(1, 2, 3, 4).reduce(Integer::sum).get();
+        System.out.println(sumValue);
+        List<String> a1= new ArrayList<>(Arrays.asList("5","6","7"));
+        List<String> a2=Arrays.asList("5","6","7");
+        a1.addAll(a2);
+        a1=a1.stream().distinct().collect(Collectors.toList());
+        System.out.println(a1);
 	// write your code here
  /*       final hero gareen = new hero();
         gareen.name = "盖伦";

@@ -23,7 +23,7 @@ namespace core_api1
              
                 var content = new FormUrlEncodedContent(values);
 
-                var response = await client.PostAsync("http://localhost:9090/AdminServer/sys/security/server/serverRegist", content);
+                var response = await client.PostAsync("http://11.101.2.16:9090/AdminServer/sys/security/server/serverRegist", content);
 
                 var responseString = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("====================>"+responseString);

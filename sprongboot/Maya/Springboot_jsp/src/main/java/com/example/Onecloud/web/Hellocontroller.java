@@ -54,7 +54,7 @@ public class Hellocontroller {
 
     @PutMapping("/upload")
     public java.lang.String putupload(HttpServletRequest re, @RequestParam("file") MultipartFile mf, Model m) throws  Exception{
-        if (mf.isEmpty()) {
+        /*if (mf.isEmpty()) {
             m.addAttribute("info","文件为空");
         }
         //创建文件名
@@ -71,7 +71,7 @@ public class Hellocontroller {
             m.addAttribute("fileName",filename);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         return "hello";
     }

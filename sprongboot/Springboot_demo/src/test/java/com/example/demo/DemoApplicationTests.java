@@ -26,6 +26,8 @@ public class DemoApplicationTests {
 
 	@Autowired
 	private rendMailserver rend;
+	Integer sub;
+	Integer re;
 	/*@Autowired
 	private RedisTemplate redisTemplate;
 	@Autowired
@@ -76,6 +78,18 @@ public class DemoApplicationTests {
 
 	@Test
 	public void sendAttachment() {
+         Integer aa=FF(3);
+         System.out.println(aa);
+	}
+
+	private Integer FF(int n){
+		if(n<=1){
+			return 1;
+		}else{
+			sub=FF(n-1);
+			re=sub*n;
+			return re;
+		}
 	}
 
 }

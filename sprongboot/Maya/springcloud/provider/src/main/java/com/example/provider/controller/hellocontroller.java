@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @date:2019/10/9
  */
 @RestController
-@RequestMapping("hello")
-public class hello {
+@RequestMapping("/hello")
+public class hellocontroller {
 
-    @RequestMapping("/")
-    public String getList(@RequestParam String name) throws Exception {
-       return "hello"+name;
+    @RequestMapping("/hi")
+    public String getList() throws Exception {
+       return "hello";
     }
 
 }

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * add by xzx
  * 把zuul配置改为从数据库获取
  */
-@Configuration
+//@Configuration
 public class myZuulConfig {
 
     @Autowired

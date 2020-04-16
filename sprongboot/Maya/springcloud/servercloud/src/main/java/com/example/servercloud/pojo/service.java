@@ -11,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-@TableName(value ="TEST")
+@TableName(value ="SERVERS")
 public class service extends Model<service> {
     /**
      *

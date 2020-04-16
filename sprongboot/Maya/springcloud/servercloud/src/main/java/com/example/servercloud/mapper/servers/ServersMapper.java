@@ -1,5 +1,6 @@
 package com.example.servercloud.mapper.servers;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.servercloud.pojo.service;
 import com.sun.xml.internal.ws.wsdl.writer.document.Service;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 
 @Repository
-public interface ServersMapper {
+public interface ServersMapper extends BaseMapper<service> {
 
     /**
      * 查询所有有效的微服务

@@ -1,16 +1,31 @@
 package com.example.servercloud.fiter;
 
+
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+import com.netflix.zuul.http.ZuulServlet;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EurekaDiscoveryClient;
+import org.springframework.cloud.netflix.zuul.filters.Route;
+import org.springframework.cloud.netflix.zuul.filters.pre.PreDecorationFilter;
+import org.springframework.cloud.netflix.zuul.filters.route.SimpleHostRoutingFilter;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URL;
 
 @Component
-public class TokenFiter extends ZuulFilter {
+public class ZuulPreFiter extends ZuulFilter {
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     /**
      * 过滤器的类型，它决定过滤器在请求的哪个生命周期中执行。
@@ -45,8 +60,19 @@ public class TokenFiter extends ZuulFilter {
     public boolean shouldFilter() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
-        String url=request.getServletPath();
-        if(url.contains("eureka")){
+        //SimpleHostRoutingFilter
+        /*URL url= RequestContext.getCurrentContext().getRouteHost();
+        if(url==null && ctx.sendZuulResponse()){
+            return false;
+        }*/
+        //RibbonRoutingFilter
+        /*if(ctx.getRouteHost() == null && ctx.get("serviceId") != null
+                && ctx.sendZuulResponse()){
+            return false;
+        }*/
+
+        String url1=request.getServletPath();
+        if(url1.contains("eureka")){
             return false;
         }
         return true;
@@ -62,12 +88,27 @@ public class TokenFiter extends ZuulFilter {
         //获取请求
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
+        URL url = null;
+        try {
+            url = new URL(request.getRequestURL().toString());
+            String  path = url.getPath();
+            List<String> services = new ArrayList<>();
+            List<String> serviceNames = discoveryClient.getServices();
+            for(String serviceName : serviceNames){
+                List<ServiceInstance> serviceInstances = discoveryClient.getInstances(serviceName);
+                for(ServiceInstance serviceInstance : serviceInstances){
+                    EurekaDiscoveryClient.EurekaServiceInstance aa=(EurekaDiscoveryClient.EurekaServiceInstance)serviceInstance;
+                    services.add(String.format("%s:%s:%s:%s",serviceName,aa.getServiceId(),aa.getInstanceInfo().getIPAddr(),aa.getInstanceInfo().getPort()));
+                }
+            }
+             // PreDecorationFilter
+            // 根据requestURI获取路由信息
+            String ipAddr=this.getIpAddr(request);
+            System.out.println("请求IP地址为：[{}]"+ipAddr);
+            //配置本地IP白名单，生产环境可放入数据库或者redis中
+            List<String> ips=new ArrayList<String>();
+            ips.add("172.0.0.1");
 
-        String ipAddr=this.getIpAddr(request);
-        System.out.println("请求IP地址为：[{}]"+ipAddr);
-        //配置本地IP白名单，生产环境可放入数据库或者redis中
-        List<String> ips=new ArrayList<String>();
-        ips.add("172.0.0.1");
 
        /* if(!ips.contains(ipAddr)){
             System.out.println("IP地址校验不通过！！！");
@@ -76,14 +117,20 @@ public class TokenFiter extends ZuulFilter {
             ctx.setResponseBody("IpAddr is forbidden!");
         }
         System.out.println("IP校验通过。");*/
-        return null;
-
        /* String token = request.getParameter("token");
         if (token == null || token.isEmpty()) {
             ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(401);
             ctx.setResponseBody("token is empty");
         }*/
+            return null;
+
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

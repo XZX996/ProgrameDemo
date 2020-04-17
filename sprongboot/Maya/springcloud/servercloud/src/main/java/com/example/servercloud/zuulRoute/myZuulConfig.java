@@ -2,7 +2,9 @@ package com.example.servercloud.zuulRoute;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.cloud.netflix.zuul.ZuulProxyAutoConfiguration;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
+import org.springframework.cloud.netflix.zuul.filters.discovery.PatternServiceRouteMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * add by xzx
  * 把zuul配置改为从数据库获取
  */
-//@Configuration
+@Configuration
 public class myZuulConfig {
 
     @Autowired
@@ -27,6 +29,10 @@ public class myZuulConfig {
         return routeLocator;
     }
 
+    @Bean
+    public PatternServiceRouteMapper serviceRouteMapper(){
+        return new PatternServiceRouteMapper("(?<name>^.+)-(?<version>v.+$)","${version}/${name}");
+    }
     /*public SimpleRouteLocator zuulRouteLocator(ZuulProperties zuulProperties) throws Exception {
 
 

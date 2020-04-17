@@ -71,24 +71,25 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
     private Map<String, ZuulProperties.ZuulRoute> locateRoutesFromDB() throws Exception {
         Map<String, ZuulProperties.ZuulRoute> routeMap = properties.getRoutes();
         service  ser =new service();
-
         List<service> data = ser.selectAll();
         ZuulProperties.ZuulRoute zuulRoute;
         // IP "ip", PORT "port", NAME "name", DESCR "descr"
         for (service map : data) {
             zuulRoute = new ZuulProperties.ZuulRoute();
-            String path = map.getName().toString();
-            zuulRoute.setId(path);
-            zuulRoute.setPath("/" + path + "/**");
-            String url = new StringBuilder().append("http://")
-                    .append(map.getIp()).append(":").append(map.getPort())
-                    .append("/").append(path).append("/").toString();
-            zuulRoute.setUrl(url);
+            String path = map.getPath()==null?"/" + map.getName() + "/**":map.getPath();
+            zuulRoute.setId(map.getName());
+            zuulRoute.setPath(path);
+            if(map.getIp()!=null && map.getPort()!=null) {
+                String url = new StringBuilder().append("http://")
+                        .append(map.getIp()).append(":").append(map.getPort()).append(path).toString();
+                zuulRoute.setUrl(url);
+            }else{
+                zuulRoute.setServiceId(map.getName());
+            }
             zuulRoute.setRetryable(false);
             zuulRoute.setStripPrefix(true);
-            zuulRoute.setServiceId(path);
             zuulRoute.setSensitiveHeaders(new HashSet<>());
-            routeMap.put(path, zuulRoute);
+            routeMap.put(map.getName(), zuulRoute);
         }
         //properties.setRoutes(routeMap);
         return routeMap;

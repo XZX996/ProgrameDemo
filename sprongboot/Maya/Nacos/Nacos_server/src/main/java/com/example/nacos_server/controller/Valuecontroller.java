@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("Value")
 public class Valuecontroller {
-    @NacosValue(value = "${username:null}", autoRefreshed = true)
+    @NacosValue(value = "${MyName:null}", autoRefreshed = true)
     private String username;
     @RequestMapping(value = "/getval")
-    public String getUser() {
-        return username;
+    public String getUser(String msg) {
+        return username+":"+msg;
     }
 }

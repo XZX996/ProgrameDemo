@@ -1,19 +1,78 @@
 package com.company;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import javax.lang.model.element.VariableElement;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
 
+    public static Object pr(){
+        Object o=null;
+        try{
+           o="1";
+           return o;
+        }catch (Exception e){
+            o="2";
+            return o;
+        }finally {
+            o="3";
+        }
+    }
+    static  int arr[]=new int[5];
     public static void main(String[] args) throws IOException {
 
+       int ii=1;int j;
+       j=ii++*2+3*++ii;
+       System.out.println(ii);
+
+       public class printersspooler{
+            private static volatile printersspooler instance=null;
+            private printersspooler(){
+                //do something
+            }
+            public static  printersspooler getInstance(){
+                if(instance==null){
+                    synchronized(printersspooler.class){
+                        if(instance==null){
+                            instance=new printersspooler();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
+
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+        System.out.println(pr());
+        superC a1ww=new superC();
+
+        superC b=new superB();
+        superB c=new superB();
+
+        String ww=new String("11");
+        String bb=new String("1")+new String("1");
+        System.out.println(ww);
+        System.out.println(bb);
+        System.out.println(ww==bb);
+
+        double dd=9.0;
+        //float ff=1.0;
+       // String ee='3.0';
+
+        System.out.println(a1ww.a+b.a+c.a);
             int[] myArray = {1, 2, 3, 4, 5};
             ChangeIt.doIt(myArray);
             for (int i = 0; i < myArray.length; i++)

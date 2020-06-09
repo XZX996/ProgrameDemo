@@ -1,12 +1,17 @@
 package com.example.demo;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.AbstractXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -21,7 +26,7 @@ import javax.servlet.MultipartConfigElement;
 @EnableCaching
 @EnableSwagger2
 public class DemoApplication {
-
+	AbstractBeanDefinition
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}

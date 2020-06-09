@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Steeltoe.Discovery.Client;
 
 namespace core_api1
 {
@@ -27,10 +28,22 @@ namespace core_api1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-           /* services.AddSwaggerGen(c=> {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-            });*/
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                //设置时间格式
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                //忽略循环引用
+                // options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //数据格式首字母小写
+                //options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                //数据格式按原样输出
+                // options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                //忽略空值
+                // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            });
+            /* services.AddSwaggerGen(c=> {
+                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+             });*/
             services.AddSwaggerGen(_ =>
             {
                 _.SwaggerDoc("v1", new OpenApiInfo
@@ -43,9 +56,11 @@ namespace core_api1
                 });
                 //添加读取注释服务
                 var basePath = AppContext.BaseDirectory;
-                var xmlPath = Path.Combine(basePath, "Core_api.xml");
+                var xmlPath = Path.Combine(basePath, "core_api.xml");
                 _.IncludeXmlComments(xmlPath);
             });
+            //添加注册中心依赖
+            services.AddDiscoveryClient(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,8 +91,10 @@ namespace core_api1
             app.UseSwagger();*/
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core_api");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "core_api");
             });
+            //添加注册中心依赖
+            app.UseDiscoveryClient();
             #endregion
         }
     }

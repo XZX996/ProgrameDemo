@@ -1,7 +1,6 @@
 package com.xiang.dto;
 
 public class JsonResult {
-
     private Meta meta;
     private Object data;
 

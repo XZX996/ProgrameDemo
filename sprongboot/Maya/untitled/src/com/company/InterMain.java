@@ -35,7 +35,7 @@ public class InterMain {
 
     private static int bser(int valu){
         //Arrays.binarySearch()
-        HashMap
+       // HashMap
         int low=0;
         int mid=0;
         int hign=a.length-1;

@@ -15,7 +15,7 @@ namespace core_api1
         {
             IHost webHost = CreateHostBuilder(args).Build();
 
-            using (var client = new HttpClient())
+           /* using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("serversSecurityServerName", "Kettle");
                 client.DefaultRequestHeaders.Add("serversSecurityAccessToken", "2d09c9ec-e0d7-11e8-9c84-0235d2b38928");
@@ -27,7 +27,7 @@ namespace core_api1
 
                 var responseString = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("====================>"+responseString);
-            };
+            };*/
             await webHost.RunAsync();
 
         }

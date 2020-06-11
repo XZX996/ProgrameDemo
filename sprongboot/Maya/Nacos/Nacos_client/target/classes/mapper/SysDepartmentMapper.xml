@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.nacos_client.Mapper.SysDepartmentMapper" >
+<resultMap id="BaseResultMap" type="com.example.nacos_client.pojo.SysDepartment" >
+   <id column="ID" property="id" jdbcType="DECIMAL" />
+   <result column="TYPE" property="type" jdbcType="DECIMAL" />
+   <result column="CZSJ" property="czsj" jdbcType="TIMESTAMP" />
+   <result column="LXR" property="lxr" jdbcType="NVARCHAR" />
+   <result column="PARENT_ID" property="parentId" jdbcType="DECIMAL" />
+   <result column="CODE" property="code" jdbcType="VARCHAR" />
+   <result column="CZRYZH" property="czryzh" jdbcType="VARCHAR" />
+   <result column="IS_VIRTUAL" property="isVirtual" jdbcType="DECIMAL" />
+   <result column="BMBH" property="bmbh" jdbcType="VARCHAR" />
+   <result column="NAME" property="name" jdbcType="VARCHAR" />
+   <result column="LXRDH" property="lxrdh" jdbcType="VARCHAR" />
+   <result column="ZSBMBHS" property="zsbmbhs" jdbcType="VARCHAR" />
+   <result column="LXDZ" property="lxdz" jdbcType="NVARCHAR" />
+   <result column="LEV" property="lev" jdbcType="DECIMAL" />
+   <result column="FZJG" property="fzjg" jdbcType="VARCHAR" />
+   <result column="BZ" property="bz" jdbcType="NVARCHAR" />
+   <result column="SJZDBMBH" property="sjzdbmbh" jdbcType="VARCHAR" />
+   <result column="SFZSBM" property="sfzsbm" jdbcType="DECIMAL" />
+   <result column="ZT" property="zt" jdbcType="DECIMAL" />
+   <result column="XZQH" property="xzqh" jdbcType="VARCHAR" />
+   <result column="FAX" property="fax" jdbcType="VARCHAR" />
+</resultMap>
+<sql id="Base_Column_List" >
+    ID,TYPE,CZSJ,LXR,PARENT_ID,CODE,CZRYZH,IS_VIRTUAL,BMBH,NAME,LXRDH,ZSBMBHS,LXDZ,LEV,FZJG,BZ,SJZDBMBH,SFZSBM,ZT,XZQH,FAX
+</sql>
+<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from  SYS_DEPARTMENT
+    where ID = #{id,jdbcType=DECIMAL}
+</select>
+<select id="getNextVal" resultType="java.lang.Long" useCache="false" flushCache="false" >
+    select SEQ_SYS_DEPARTMENT.nextval as id from dual
+</select>
+<select id="selectAllByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from SYS_DEPARTMENT
+</select>
+<delete id="deleteByPrimaryKey"  parameterType="java.lang.Long" >
+    delete
+    from  SYS_DEPARTMENT
+    where ID = #{id,jdbcType=DECIMAL}
+</delete>
+<insert id="insert" parameterType="com.example.nacos_client.pojo.SysDepartment" >
+    insert into SYS_DEPARTMENT ( ID,TYPE,CZSJ,LXR,PARENT_ID,CODE,CZRYZH,IS_VIRTUAL,BMBH,NAME,LXRDH,ZSBMBHS,LXDZ,LEV,FZJG,BZ,SJZDBMBH,SFZSBM,ZT,XZQH,FAX )
+    values ( SEQ_SYS_DEPARTMENT.NEXTVAL,#{type,jdbcType=DECIMAL},#{czsj,jdbcType=TIMESTAMP},#{lxr,jdbcType=NVARCHAR},#{parentId,jdbcType=DECIMAL},#{code,jdbcType=VARCHAR},#{czryzh,jdbcType=VARCHAR},#{isVirtual,jdbcType=DECIMAL},#{bmbh,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{lxrdh,jdbcType=VARCHAR},#{zsbmbhs,jdbcType=VARCHAR},#{lxdz,jdbcType=NVARCHAR},#{lev,jdbcType=DECIMAL},#{fzjg,jdbcType=VARCHAR},#{bz,jdbcType=NVARCHAR},#{sjzdbmbh,jdbcType=VARCHAR},#{sfzsbm,jdbcType=DECIMAL},#{zt,jdbcType=DECIMAL},#{xzqh,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR} )
+</insert>
+<insert id="insertSelective" parameterType="com.example.nacos_client.pojo.SysDepartment" >
+    insert into SYS_DEPARTMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="type != null" >TYPE,</if>
+      <if test="czsj != null" >CZSJ,</if>
+      <if test="lxr != null" >LXR,</if>
+      <if test="parentId != null" >PARENT_ID,</if>
+      <if test="code != null" >CODE,</if>
+      <if test="czryzh != null" >CZRYZH,</if>
+      <if test="isVirtual != null" >IS_VIRTUAL,</if>
+      <if test="bmbh != null" >BMBH,</if>
+      <if test="name != null" >NAME,</if>
+      <if test="lxrdh != null" >LXRDH,</if>
+      <if test="zsbmbhs != null" >ZSBMBHS,</if>
+      <if test="lxdz != null" >LXDZ,</if>
+      <if test="lev != null" >LEV,</if>
+      <if test="fzjg != null" >FZJG,</if>
+      <if test="bz != null" >BZ,</if>
+      <if test="sjzdbmbh != null" >SJZDBMBH,</if>
+      <if test="sfzsbm != null" >SFZSBM,</if>
+      <if test="zt != null" >ZT,</if>
+      <if test="xzqh != null" >XZQH,</if>
+      <if test="fax != null" >FAX,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      SEQ_SYS_DEPARTMENT.NEXTVAL,
+      <if test="type != null" >#{type,jdbcType=DECIMAL},</if>
+      <if test="czsj != null" >#{czsj,jdbcType=TIMESTAMP},</if>
+      <if test="lxr != null" >#{lxr,jdbcType=NVARCHAR},</if>
+      <if test="parentId != null" >#{parentId,jdbcType=DECIMAL},</if>
+      <if test="code != null" >#{code,jdbcType=VARCHAR},</if>
+      <if test="czryzh != null" >#{czryzh,jdbcType=VARCHAR},</if>
+      <if test="isVirtual != null" >#{isVirtual,jdbcType=DECIMAL},</if>
+      <if test="bmbh != null" >#{bmbh,jdbcType=VARCHAR},</if>
+      <if test="name != null" >#{name,jdbcType=VARCHAR},</if>
+      <if test="lxrdh != null" >#{lxrdh,jdbcType=VARCHAR},</if>
+      <if test="zsbmbhs != null" >#{zsbmbhs,jdbcType=VARCHAR},</if>
+      <if test="lxdz != null" >#{lxdz,jdbcType=NVARCHAR},</if>
+      <if test="lev != null" >#{lev,jdbcType=DECIMAL},</if>
+      <if test="fzjg != null" >#{fzjg,jdbcType=VARCHAR},</if>
+      <if test="bz != null" >#{bz,jdbcType=NVARCHAR},</if>
+      <if test="sjzdbmbh != null" >#{sjzdbmbh,jdbcType=VARCHAR},</if>
+      <if test="sfzsbm != null" >#{sfzsbm,jdbcType=DECIMAL},</if>
+      <if test="zt != null" >#{zt,jdbcType=DECIMAL},</if>
+      <if test="xzqh != null" >#{xzqh,jdbcType=VARCHAR},</if>
+      <if test="fax != null" >#{fax,jdbcType=VARCHAR},</if>
+    </trim>
+</insert>
+<update id="updateByPrimaryKey" parameterType="com.example.nacos_client.pojo.SysDepartment" >
+     update SYS_DEPARTMENT set
+     TYPE = #{type,jdbcType=DECIMAL},
+     CZSJ = #{czsj,jdbcType=TIMESTAMP},
+     LXR = #{lxr,jdbcType=NVARCHAR},
+     PARENT_ID = #{parentId,jdbcType=DECIMAL},
+     CODE = #{code,jdbcType=VARCHAR},
+     CZRYZH = #{czryzh,jdbcType=VARCHAR},
+     IS_VIRTUAL = #{isVirtual,jdbcType=DECIMAL},
+     BMBH = #{bmbh,jdbcType=VARCHAR},
+     NAME = #{name,jdbcType=VARCHAR},
+     LXRDH = #{lxrdh,jdbcType=VARCHAR},
+     ZSBMBHS = #{zsbmbhs,jdbcType=VARCHAR},
+     LXDZ = #{lxdz,jdbcType=NVARCHAR},
+     LEV = #{lev,jdbcType=DECIMAL},
+     FZJG = #{fzjg,jdbcType=VARCHAR},
+     BZ = #{bz,jdbcType=NVARCHAR},
+     SJZDBMBH = #{sjzdbmbh,jdbcType=VARCHAR},
+     SFZSBM = #{sfzsbm,jdbcType=DECIMAL},
+     ZT = #{zt,jdbcType=DECIMAL},
+     XZQH = #{xzqh,jdbcType=VARCHAR},
+     FAX = #{fax,jdbcType=VARCHAR}
+     where ID = #{id,jdbcType=DECIMAL}
+</update>
+<update id="updateByPrimaryKeySelective" parameterType="com.example.nacos_client.pojo.SysDepartment" >
+     update SYS_DEPARTMENT
+     <set >
+       <if test="type != null" > TYPE = #{type,jdbcType=DECIMAL},</if>
+       <if test="czsj != null" > CZSJ = #{czsj,jdbcType=TIMESTAMP},</if>
+       <if test="lxr != null" > LXR = #{lxr,jdbcType=NVARCHAR},</if>
+       <if test="parentId != null" > PARENT_ID = #{parentId,jdbcType=DECIMAL},</if>
+       <if test="code != null" > CODE = #{code,jdbcType=VARCHAR},</if>
+       <if test="czryzh != null" > CZRYZH = #{czryzh,jdbcType=VARCHAR},</if>
+       <if test="isVirtual != null" > IS_VIRTUAL = #{isVirtual,jdbcType=DECIMAL},</if>
+       <if test="bmbh != null" > BMBH = #{bmbh,jdbcType=VARCHAR},</if>
+       <if test="name != null" > NAME = #{name,jdbcType=VARCHAR},</if>
+       <if test="lxrdh != null" > LXRDH = #{lxrdh,jdbcType=VARCHAR},</if>
+       <if test="zsbmbhs != null" > ZSBMBHS = #{zsbmbhs,jdbcType=VARCHAR},</if>
+       <if test="lxdz != null" > LXDZ = #{lxdz,jdbcType=NVARCHAR},</if>
+       <if test="lev != null" > LEV = #{lev,jdbcType=DECIMAL},</if>
+       <if test="fzjg != null" > FZJG = #{fzjg,jdbcType=VARCHAR},</if>
+       <if test="bz != null" > BZ = #{bz,jdbcType=NVARCHAR},</if>
+       <if test="sjzdbmbh != null" > SJZDBMBH = #{sjzdbmbh,jdbcType=VARCHAR},</if>
+       <if test="sfzsbm != null" > SFZSBM = #{sfzsbm,jdbcType=DECIMAL},</if>
+       <if test="zt != null" > ZT = #{zt,jdbcType=DECIMAL},</if>
+       <if test="xzqh != null" > XZQH = #{xzqh,jdbcType=VARCHAR},</if>
+       <if test="fax != null" > FAX = #{fax,jdbcType=VARCHAR},</if>
+     </set>
+     where ID = #{id,jdbcType=DECIMAL}
+</update>
+</mapper>

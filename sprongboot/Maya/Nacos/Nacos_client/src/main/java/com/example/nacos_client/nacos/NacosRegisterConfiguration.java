@@ -1,3 +1,4 @@
+/*
 package com.example.nacos_client.nacos;
 
 import com.alibaba.nacos.api.annotation.NacosInjected;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 
-@Configuration
+//@Configuration
 public class NacosRegisterConfiguration {
 
     @Value("${server.port}")
@@ -36,3 +37,4 @@ public class NacosRegisterConfiguration {
     }
 }
 
+*/

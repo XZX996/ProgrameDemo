@@ -1,70 +1,63 @@
-/*
 package com.example.nacos_client.service.imp;
 
-import com.example.nacos_client.Mapper.Categorymapper;
+import com.example.nacos_client.elasticsearch.document.Category;
+import com.example.nacos_client.elasticsearch.document.EsProduct;
+import com.example.nacos_client.elasticsearch.repository.CategoryRepository;
+import com.example.nacos_client.elasticsearch.repository.EsProductRepository;
+import com.example.nacos_client.service.Categoryservice;
+import org.elasticsearch.common.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class CategoryserviceImp {
+@Service
+public class CategoryserviceImp implements Categoryservice {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryserviceImp.class);
     @Autowired
-    private Categorymapper productDao;
-    @Autowired
-    private EsProductRepository productRepository;
+    private CategoryRepository productRepository;
 
     @Override
     public int importAll() {
-        List<EsProduct> esProductList = productDao.getAllEsProductList(null);
+        int result = 0;
+        /*List<EsProduct> esProductList = productDao.getAllEsProductList(null);
         Iterable<EsProduct> esProductIterable = productRepository.saveAll(esProductList);
         Iterator<EsProduct> iterator = esProductIterable.iterator();
-        int result = 0;
+
         while (iterator.hasNext()) {
             result++;
             iterator.next();
-        }
+        }*/
         return result;
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Integer id) {
         productRepository.deleteById(id);
     }
 
     @Override
-    public EsProduct create(Long id) {
-        EsProduct result = null;
-        List<EsProduct> esProductList = productDao.getAllEsProductList(id);
-        if (esProductList.size() > 0) {
-            EsProduct esProduct = esProductList.get(0);
-            result = productRepository.save(esProduct);
-        }
-        return result;
+    public Category create(Long id) {
+        return null;
     }
 
     @Override
     public void delete(List<Long> ids) {
-        if (!CollectionUtils.isEmpty(ids)) {
-            List<EsProduct> esProductList = new ArrayList<>();
-            for (Long id : ids) {
-                EsProduct esProduct = new EsProduct();
-                esProduct.setId(id);
-                esProductList.add(esProduct);
-            }
-            productRepository.deleteAll(esProductList);
-        }
+
     }
 
+
     @Override
-    public Page<EsProduct> search(String keyword, Integer pageNum, Integer pageSize) {
+    public Page<Category> search(String keyword, Integer pageNum, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNum, pageSize);
-        return productRepository.findByNameOrSubTitleOrKeywords(keyword, keyword, keyword, pageable);
+        return productRepository.findByNameOrPriceOrCategory(keyword, keyword, keyword, pageable);
     }
 
 }
-*/

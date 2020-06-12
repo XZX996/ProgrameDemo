@@ -1,3 +1,4 @@
+/*
 package com.example.nacos_client.common;
 
 import net.hasor.core.ApiBinder;
@@ -25,3 +26,4 @@ public class ExampleModule implements SpringModule {
         //apiBinder.tryCast(QueryApiBinder.class).bindFragment("sql", SqlFragment.class);
     }
 }
+*/

@@ -2,6 +2,8 @@ package com.example.nacos_client.service;
 
 import com.example.nacos_client.pojo.SysDepartment;
 import com.github.pagehelper.PageInfo;
+import org.springframework.data.domain.Page;
+
 import java.util.Map;
 import java.util.List;
 
@@ -12,6 +14,10 @@ import java.util.List;
  */
 public interface ISysDepartmentService {
 
+    /**
+     * 从数据库中导入所有商品到ES
+     */
+    int importAll();
     /**
      * 新增
      */
@@ -46,5 +52,15 @@ public interface ISysDepartmentService {
      * 获取实体
      */
     SysDepartment getModel(Long id) throws Exception;
-    
+
+    /**
+     * 从es中获取数据
+     * @param name
+     * @param id
+     * @param type
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    Page<SysDepartment> search(String name, Long id, String type, Integer pageNum, Integer pageSize);
 }

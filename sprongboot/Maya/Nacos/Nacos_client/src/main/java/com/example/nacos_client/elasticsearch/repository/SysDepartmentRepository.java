@@ -1,18 +1,17 @@
 package com.example.nacos_client.elasticsearch.repository;
 
-import com.example.nacos_client.elasticsearch.document.Category;
 import com.example.nacos_client.elasticsearch.document.EsProduct;
+import com.example.nacos_client.pojo.SysDepartment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-/*
- * 商品ES操作类
+/**
+ * 部门ES操作类
  *
+ */
+public interface SysDepartmentRepository extends ElasticsearchRepository<SysDepartment, Long> {
 
-*/
-public interface CategoryRepository extends ElasticsearchRepository<Category, Integer> {
-
-    Page<Category> findByNameOrPriceOrCategory(String name, String price, String Category, Pageable page);
+    Page<SysDepartment> findByNameOrIdOrType(String name, Long id, String type, Pageable page);
 
 }

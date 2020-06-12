@@ -1,15 +1,22 @@
 package com.example.nacos_client.service.imp;
 
-import com.example.nacos_client.Mapper.SysDepartmentMapper;
+import com.example.nacos_client.elasticsearch.document.EsProduct;
+import com.example.nacos_client.elasticsearch.repository.EsProductRepository;
+import com.example.nacos_client.elasticsearch.repository.SysDepartmentRepository;
+import com.example.nacos_client.mapper.SysDepartmentMapper;
 import com.example.nacos_client.pojo.SysDepartment;
 import com.example.nacos_client.service.ISysDepartmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +30,8 @@ public  class SysDepartmentServiceImpl implements ISysDepartmentService {
 
     @Autowired
     private SysDepartmentMapper sysDepartmentMapper;
-
-
+    @Autowired
+    private SysDepartmentRepository sysDepartmentRepository;
     /**
      *获取序列值
      */
@@ -33,6 +40,18 @@ public  class SysDepartmentServiceImpl implements ISysDepartmentService {
         return sysDepartmentMapper.getNextVal();
     }
 
+    @Override
+    public int importAll() {
+        List<SysDepartment> esProductList = sysDepartmentMapper.selectAllByMap(null);
+        Iterable<SysDepartment> esProductIterable = sysDepartmentRepository.saveAll(esProductList);
+        Iterator<SysDepartment> iterator = esProductIterable.iterator();
+        int result = 0;
+        while (iterator.hasNext()) {
+            result++;
+            iterator.next();
+        }
+        return result;
+    }
     /**
      *新增
      */
@@ -91,4 +110,11 @@ public  class SysDepartmentServiceImpl implements ISysDepartmentService {
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
     }
+
+    @Override
+    public Page<SysDepartment> search(String name, Long id,String type,Integer pageNum, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        return sysDepartmentRepository.findByNameOrIdOrType(name, id, type, pageable);
+    }
+
 }

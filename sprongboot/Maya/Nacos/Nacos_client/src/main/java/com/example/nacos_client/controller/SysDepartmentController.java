@@ -1,16 +1,21 @@
 package com.example.nacos_client.controller;
 
+import com.example.nacos_client.common.CommonPage;
 import com.example.nacos_client.common.Response;
+import com.example.nacos_client.elasticsearch.document.EsProduct;
 import com.example.nacos_client.pojo.SysDepartment;
 import com.example.nacos_client.service.ISysDepartmentService;
 
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -30,11 +35,20 @@ public  class SysDepartmentController {
      *获取分页数据
      */
     @PostMapping("/getData")
-    public Response list(@RequestParam Map map) throws Exception {
+    public Response list() throws Exception {
+        //@RequestParam Map map
+        Map map=new HashMap();
         PageInfo pageInfo = sysDepartmentService.getList(map);
         return new Response().success(pageInfo.getList(), pageInfo.getTotal());
     }
 
+    @ApiOperation(value = "导入所有数据库中商品到ES")
+    @RequestMapping(value = "/importAll", method = RequestMethod.POST)
+    @ResponseBody
+    public Response importAllList() {
+        int count = sysDepartmentService.importAll();
+        return new Response().success(count);
+    }
     /**
      *获取实体
      */
@@ -272,5 +286,17 @@ public  class SysDepartmentController {
     public Response remove(Long id) throws Exception {
         sysDepartmentService.delete(id);
         return new Response().success();
+    }
+
+    @ApiOperation(value = "简单搜索")
+    @RequestMapping(value = "/search/simple", method = RequestMethod.GET)
+    @ResponseBody
+    public Response search(@RequestParam(required = false) String name,
+                           @RequestParam(required = false) Long id,
+                           @RequestParam(required = false) String type,
+                           @RequestParam(required = false, defaultValue = "0") Integer pageNum,
+                           @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
+        Page<SysDepartment> esProductPage = sysDepartmentService.search(name,id,type, pageNum, pageSize);
+        return new Response().success(CommonPage.restPage(esProductPage));
     }
 }

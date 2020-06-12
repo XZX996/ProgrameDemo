@@ -1,7 +1,7 @@
 package com.example.nacos_client.service.imp;
 
 
-import com.example.nacos_client.Mapper.EsProductMapper;
+import com.example.nacos_client.mapper.EsProductMapper;
 import com.example.nacos_client.elasticsearch.document.EsProduct;
 import com.example.nacos_client.elasticsearch.repository.EsProductRepository;
 import com.example.nacos_client.service.EsProductService;

@@ -26,7 +26,7 @@ import javax.servlet.MultipartConfigElement;
 @EnableCaching
 @EnableSwagger2
 public class DemoApplication {
-	AbstractBeanDefinition
+
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}

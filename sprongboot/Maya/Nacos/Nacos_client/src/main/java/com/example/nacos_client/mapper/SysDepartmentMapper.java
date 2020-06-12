@@ -1,4 +1,4 @@
-package com.example.nacos_client.Mapper;
+package com.example.nacos_client.mapper;
 
 import com.example.nacos_client.pojo.SysDepartment;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.Map;
  * xzx
  * 2020-06-11
  */
-@Repository
+
 public interface SysDepartmentMapper {
     /**
      *全字段插入

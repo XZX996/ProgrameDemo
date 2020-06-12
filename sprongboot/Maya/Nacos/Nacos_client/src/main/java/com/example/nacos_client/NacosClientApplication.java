@@ -1,8 +1,5 @@
 package com.example.nacos_client;
 
-import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
-import net.hasor.spring.boot.EnableHasor;
-import net.hasor.spring.boot.EnableHasorWeb;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 //@EnableHasorWeb()
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.example.nacos_client.*"})
-@MapperScan("com.example.nacos_client.Mapper")
+@MapperScan("com.example.nacos_client.mapper")
 //@NacosPropertySource(dataId = "Test1", autoRefreshed = true)
 public class NacosClientApplication {
 

@@ -1,4 +1,4 @@
-package com.example.nacos_client.Mapper;
+package com.example.nacos_client.mapper;
 
 import com.example.nacos_client.elasticsearch.document.EsProduct;
 import org.apache.ibatis.annotations.Param;

@@ -1,3 +1,4 @@
+<!--
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -6,19 +7,17 @@
 
     <bean id="processEngineConfiguration"
           class="org.activiti.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
-
+        &lt;!&ndash; 如果表不存在  自动创建 &ndash;&gt;
         <property name="databaseSchemaUpdate" value="true"/>
-        <property name="jdbcUrl" value="jdbc:mysql://localhost/activiti_demo?useSSL=false"/>
-        <property name="jdbcDriver" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUsername" value="root"/>
-        <property name="jdbcPassword" value="root"/>
-        <!-- Databaseconfigurations -->
+        <property name="jdbcUrl" value="jdbc:oracle:thin:@11.101.2.36:1521:orcl"/>
+        <property name="jdbcDriver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="jdbcUsername" value="WORK_FLOW1"/>
+        <property name="jdbcPassword" value="scxdcj"/>
 
-        <!--<property name="databaseSchemaUpdate" value="true" />-->
 
-        <!-- jobexecutor configurations -->
+        &lt;!&ndash; jobexecutor configurations &ndash;&gt;
 
-        <!--<property name="jobExecutorActivate" value="false" />-->
+        &lt;!&ndash;<property name="jobExecutorActivate" value="false" />&ndash;&gt;
     </bean>
 
-</beans>
+</beans>-->

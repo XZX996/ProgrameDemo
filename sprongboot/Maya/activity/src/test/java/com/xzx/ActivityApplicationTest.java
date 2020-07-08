@@ -1,14 +1,18 @@
 package com.xzx;
 
-import org.activiti.dmn.api.Query;
+import com.xzx.ActicitiCmd.ExecutionVariableDeleteCmd;
+import com.xzx.ActicitiCmd.FlowToFirstCmd;
+import com.xzx.ActicitiCmd.TaskDeleteCmd;
 import org.activiti.engine.*;
+import org.activiti.engine.impl.util.Activiti5Util;
 import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -26,6 +30,10 @@ public class ActivityApplicationTest {
 	private RuntimeService runtimeService;
 	@Autowired
 	private TaskService taskService;
+    @Autowired
+    private ManagementService managementService;
+
+
 	@Test
 	public void contextLoads() {
 		//String[] args=new String[]{};
@@ -41,6 +49,7 @@ public class ActivityApplicationTest {
 		//部署的服务对象
 		RepositoryService repositoryService = pec.getRepositoryService();
 
+        //Activiti5Util()
 		//部署请假任务
 		Deployment deploy = repositoryService.createDeployment()
 				.addClasspathResource("processes/qingjia2.bpmn")
@@ -59,8 +68,10 @@ public class ActivityApplicationTest {
 	@Test
 	public void startProcessInstance() {
 		//ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-		String processDefinitionKey = "myProcess_3";
-		ProcessInstance processInstance =runtimeService.startProcessInstanceByKey(processDefinitionKey);
+		String processDefinitionKey = "myProcess_3";Map<String, Object> variables = new HashMap<>();
+        variables.put("outcome","0");
+
+		ProcessInstance processInstance =runtimeService.startProcessInstanceByKey(processDefinitionKey,"12",variables);
 		//ProcessInstance processInstance = processEngine.getRuntimeService()//与正在执行的流程实例和执行对象相关的Service
 				//.startProcessInstanceByKey(processDefinitionKey);//根据Key值来查询流程,也可以根据ID
 		System.out.println("流程实例ID:"+processInstance.getId());  //2501
@@ -134,6 +145,40 @@ public class ActivityApplicationTest {
 	}
 	//endregion
 
+    /**
+     * 删除流程
+     */
+    @Test
+    public void deletePro(){
+        Map<String,String> a=new HashMap<String, String>();
+        a.put("50001","审批");
+        a.put("40001","老板");
+        a.put("15001","请假");
+        a.put("32501","请假");
+
+        a.forEach((key, Value)->{
+
+        });
+        for(Map.Entry<String,String> entry: a.entrySet()){
+            ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+            processEngine.getRuntimeService().deleteProcessInstance(entry.getKey(),entry.getValue());
+        }
+
+    }
+    /**
+     * 删除部署信息 
+     * */
+    @Test
+    public void deleteDeployment(){
+       String deploymentId="1";
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+       // 第二个参数代表级联操作  
+        processEngine.getRepositoryService().deleteDeployment(deploymentId,true);
+        // 删除所有相关的activiti信息  
+    }
+
+
+
 	/**
 	 * 获取TaskService流程变量
 	 */
@@ -150,4 +195,89 @@ public class ActivityApplicationTest {
 		System.out.println("getVariableLocal(taskId,\"variable\")===>"+processEngine.getTaskService().getVariableLocal(taskId,"variable"));
 		System.out.println("getVariableLocal(taskId,\"localVariable\")===>"+processEngine.getTaskService().getVariableLocal(taskId,"localVariable"));
 	}
+
+    /**
+     * 拒绝
+     */
+    @Test
+    public void reject() {
+        String taskId = "67505";
+        //删除所有当前task，保留一个，并且将该task的审批人设为发起人
+        //设置reject标志
+        Task t = taskService.createTaskQuery()
+                .taskId(taskId)
+                .singleResult();
+        String instanceId = t.getProcessInstanceId();
+        List<Task> tasks = taskService.createTaskQuery()
+                .processInstanceId(instanceId)
+                .list();
+        Task luckyTask = tasks.get(0);
+        managementService.executeCommand(new ExecutionVariableDeleteCmd(t.getExecutionId()));
+        //taskService.removeVariable(taskId,"outcome");
+        for (int i = 1; i < tasks.size(); ++i) {
+            //taskService.deleteTask(tasks.get(i).getId());
+           // taskService.removeVariable(tasks.get(i).getExecutionId(),"outcome");
+            managementService.executeCommand(new TaskDeleteCmd(tasks.get(i).getId()));
+            managementService.executeCommand(new ExecutionVariableDeleteCmd(tasks.get(i).getExecutionId()));
+        }
+        //(String) taskService.getVariable(luckyTask.getId(), "submitter")
+        //将发起人设置为当前审批人
+        taskService.setAssignee(luckyTask.getId(), "请假");
+        //设置变量标识当前状态是已拒绝状态
+        taskService.setVariable(luckyTask.getId(), "outcome", "reject");
+        System.out.println(t.toString()+"::"+instanceId);
+        //return this.taskResponse(t, instanceId);
+    }
+
+    /**
+     * 拒绝后审批
+     */
+    @Test
+    public void Audit(){
+        String taskId = "72503";
+        String status = (String) taskService.getVariable(taskId, "outcome");
+        if ("reject".equals(status)) {
+            //发起人重新发起
+            this.rollbackFirstask(taskId, "请假");
+        } else {
+            taskService.setVariable(taskId, "outcome","PASS");
+            //正常审批
+            taskService.complete(taskId);
+        }
+    }
+
+    /**
+     * 流程回退到第一个节点
+     *
+     * @param context
+     * @param request
+     * @param user
+     * @return
+     */
+    public void rollbackFirstask(String taskId, String user) {
+        //移除标记REJECT的status
+        taskService.removeVariable(taskId, "outcome");
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        //删除任务
+        managementService.executeCommand(new TaskDeleteCmd(taskId));
+        //删除变量
+        managementService.executeCommand(new ExecutionVariableDeleteCmd(task.getExecutionId()));
+        //将流程回滚到第一个节点
+        managementService.executeCommand(new FlowToFirstCmd(task));
+        System.out.println(task.getProcessInstanceId());
+    }
+
+    /**触发信号事件*/
+
+    @Test
+    public void completeSingal(){
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        List<Execution> executions =  processEngine.getRuntimeService().createExecutionQuery()
+                .signalEventSubscriptionName("Singal")
+                .list();
+        for(Execution e:executions){
+            processEngine.getRuntimeService().signalEventReceived("Singal", e.getId());
+        }
+
+    }
 }

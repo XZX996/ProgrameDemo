@@ -2,6 +2,7 @@ package com.xzx;
 
 import com.xzx.ActicitiCmd.ExecutionVariableDeleteCmd;
 import com.xzx.ActicitiCmd.FlowToFirstCmd;
+import com.xzx.ActicitiCmd.FlowToPreNodeCmd;
 import com.xzx.ActicitiCmd.TaskDeleteCmd;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.util.Activiti5Util;
@@ -52,10 +53,10 @@ public class ActivityApplicationTest {
         //Activiti5Util()
 		//部署请假任务
 		Deployment deploy = repositoryService.createDeployment()
-				.addClasspathResource("processes/qingjia2.bpmn")
+				.addClasspathResource("processes/qingjia3.bpmn")
 				//.addClasspathResource("process/qingjia.png")
-				.key("myProcess_3")
-				.name("请假3")  //添加部署的名称
+				.key("p_take_off")
+				.name("请假4")  //添加部署的名称
 				.deploy();
 
 		System.out.println("请假部署ID：" + deploy.getId());
@@ -68,9 +69,9 @@ public class ActivityApplicationTest {
 	@Test
 	public void startProcessInstance() {
 		//ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-		String processDefinitionKey = "myProcess_3";Map<String, Object> variables = new HashMap<>();
+		String processDefinitionKey = "p_take_off";Map<String, Object> variables = new HashMap<>();
         variables.put("outcome","0");
-
+		//variables.put("userID", "阿黄");
 		ProcessInstance processInstance =runtimeService.startProcessInstanceByKey(processDefinitionKey,"12",variables);
 		//ProcessInstance processInstance = processEngine.getRuntimeService()//与正在执行的流程实例和执行对象相关的Service
 				//.startProcessInstanceByKey(processDefinitionKey);//根据Key值来查询流程,也可以根据ID
@@ -86,11 +87,15 @@ public class ActivityApplicationTest {
 	@Test
 	public void fingByPerson() {
 		String assignee = "员工";
+		//150001
+		String group="HAHA";
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 
 		List<Task> list = processEngine.getTaskService()//与正在执行的任务管理相关的Service
 				.createTaskQuery()//创建任务查询对象
-				.taskAssignee(assignee)//指定个人任务查询，指定代理人
+				//.taskCandidateGroup(group)
+				.taskCandidateUser("HAHA1")
+				//.taskAssignee(assignee)//指定个人任务查询，指定代理人
 				.list();//以list形式记录对象
 		if(list != null && list.size()>0) {
 			for(Task task:list) {
@@ -110,7 +115,7 @@ public class ActivityApplicationTest {
 	 */
 	@Test
 	public void complete() {
-		String taskId = "45003";
+		String taskId = "125007";
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 		processEngine.getTaskService().setVariable(taskId, "outcome", "PASS");
 		processEngine.getTaskService()
@@ -267,6 +272,18 @@ public class ActivityApplicationTest {
         System.out.println(task.getProcessInstanceId());
     }
 
+	/**
+	 * 流程回退，qingjia3.bpmn
+	 */
+	@Test
+	public void backwardTask() {
+		String taskId="107504";
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		managementService.executeCommand(new ExecutionVariableDeleteCmd(task.getExecutionId()));
+		managementService.executeCommand(new FlowToPreNodeCmd(task));
+		managementService.executeCommand(new TaskDeleteCmd(taskId));
+		System.out.println(task);
+	}
     /**触发信号事件*/
 
     @Test

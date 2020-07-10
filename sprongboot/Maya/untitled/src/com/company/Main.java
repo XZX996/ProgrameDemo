@@ -35,24 +35,6 @@ public class Main {
        j=ii++*2+3*++ii;
        System.out.println(ii);
 
-       public class printersspooler{
-            private static volatile printersspooler instance=null;
-            private printersspooler(){
-                //do something
-            }
-            public static  printersspooler getInstance(){
-                if(instance==null){
-                    synchronized(printersspooler.class){
-                        if(instance==null){
-                            instance=new printersspooler();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
-
-
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
